@@ -276,8 +276,7 @@
 	}
 ?>
 
-<form class="pmpro-add-member" action="" method="post">
-	<input name="saveid" type="hidden" value="<?php echo $edit?>" />		
+<form class="pmpro-add-member" action="" method="post">	
 		<table class="form-table">
 		<tbody>
 			<?php if(!empty($user_id)) { ?>
