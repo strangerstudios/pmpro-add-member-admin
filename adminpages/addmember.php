@@ -211,7 +211,8 @@
 				$morder->saveOrder();
 			}
 
-			do_action("pmpro_add_member_added");
+			$user = get_userdata( $user_id );
+			do_action("pmpro_add_member_added", $user_id, $user);
 			
 			//notify user
 			if($send_password)
