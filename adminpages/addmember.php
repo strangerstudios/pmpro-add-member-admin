@@ -446,8 +446,8 @@
 					</script>
 				</td>
 			</tr>
-			
-			<?php do_action("pmpro_add_member_fields"); ?>
+
+			<?php do_action("pmpro_add_member_fields", $user_id, $user ); ?>
 			
 			<tr>
 				<th scope="row" valign="top"><label for="payment"><?php _e('Payment', 'pmpro');?>:</label></th>
