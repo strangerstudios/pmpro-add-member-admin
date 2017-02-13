@@ -215,7 +215,7 @@
 			
 			//notify user
 			if($send_password)
-				wp_new_user_notification( $user_id );
+				wp_new_user_notification( $user_id, null, 'user' );
 
 			//got here with no errors
 			if($pmpro_msgt != "pmpro_error")
