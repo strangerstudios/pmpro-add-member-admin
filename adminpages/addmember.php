@@ -215,7 +215,7 @@
 			
 			//notify user
 			if($send_password)
-				wp_new_user_notification($user_id, $user_pass);
+				wp_new_user_notification( $user_id );
 
 			//got here with no errors
 			if($pmpro_msgt != "pmpro_error")
@@ -277,7 +277,7 @@
 ?>
 
 <form class="pmpro-add-member" action="" method="post">
-	<input name="saveid" type="hidden" value="<?php echo $edit?>" />		
+	<!-- <input name="saveid" type="hidden" value="<?php $edit = null ; echo $edit?>" /> -->
 		<table class="form-table">
 		<tbody>
 			<?php if(!empty($user_id)) { ?>
