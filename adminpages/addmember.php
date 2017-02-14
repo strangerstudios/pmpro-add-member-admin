@@ -8,6 +8,9 @@
 	
 	global $wpdb, $msg, $msgt, $pmpro_currency_symbol, $pmpro_required_user_fields, $pmpro_error_fields, $pmpro_msg, $pmpro_msgt;
 
+	// BUG: Declare user_id to avoid Undefined variable warning
+	$user_id = null;
+
 	require_once(PMPRO_DIR . "/adminpages/admin_header.php");
 
 	if(!empty($_REQUEST['user']))
