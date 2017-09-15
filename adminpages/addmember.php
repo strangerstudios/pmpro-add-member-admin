@@ -151,7 +151,8 @@
 					"user_pass" => $user_pass,
 					"user_email" => $user_email,
 					"first_name" => $first_name,
-					"last_name" => $last_name)
+					"last_name" => $last_name,
+					"role" => $role,)
 				);
 			}
 		}
@@ -211,7 +212,8 @@
 				$morder->saveOrder();
 			}
 
-			do_action("pmpro_add_member_added");
+			$user = get_userdata( $user_id );
+			do_action("pmpro_add_member_added", $user_id, $user);
 			
 			//notify user
 			if($send_password)
@@ -276,8 +278,7 @@
 	}
 ?>
 
-<form class="pmpro-add-member" action="" method="post">
-	<input name="saveid" type="hidden" value="<?php echo $edit?>" />		
+<form class="pmpro-add-member" action="" method="post">	
 		<table class="form-table">
 		<tbody>
 			<?php if(!empty($user_id)) { ?>
@@ -447,7 +448,7 @@
 				</td>
 			</tr>
 			
-			<?php do_action("pmpro_add_member_fields"); ?>
+			<?php do_action("pmpro_add_member_fields", $user); ?>
 			
 			<tr>
 				<th scope="row" valign="top"><label for="payment"><?php _e('Payment', 'pmpro');?>:</label></th>
