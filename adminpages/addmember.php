@@ -8,6 +8,9 @@
 	
 	global $wpdb, $msg, $msgt, $pmpro_currency_symbol, $pmpro_required_user_fields, $pmpro_error_fields, $pmpro_msg, $pmpro_msgt;
 
+	// BUG: Declare user_id to avoid Undefined variable warning
+	$user_id = null;
+
 	require_once(PMPRO_DIR . "/adminpages/admin_header.php");
 
 	if(!empty($_REQUEST['user']))
@@ -217,7 +220,7 @@
 			
 			//notify user
 			if($send_password)
-				wp_new_user_notification($user_id, null, 'both');	
+				wp_new_user_notification($user_id, null, 'user');
 
 			//got here with no errors
 			if($pmpro_msgt != "pmpro_error")
@@ -278,7 +281,8 @@
 	}
 ?>
 
-<form class="pmpro-add-member" action="" method="post">	
+<form class="pmpro-add-member" action="" method="post">
+	<input name="saveid" type="hidden" value="<?php echo isset( $edit ) ? $edit : null; ?>" />
 		<table class="form-table">
 		<tbody>
 			<?php if(!empty($user_id)) { ?>
@@ -447,8 +451,10 @@
 					</script>
 				</td>
 			</tr>
-			
-			<?php do_action("pmpro_add_member_fields", $user); ?>
+
+			<?php
+				do_action("pmpro_add_member_fields", $user, $user_id ); 
+			?>
 			
 			<tr>
 				<th scope="row" valign="top"><label for="payment"><?php _e('Payment', 'pmpro');?>:</label></th>
