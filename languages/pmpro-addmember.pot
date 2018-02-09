@@ -1,0 +1,141 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Paid Memberships Pro - Add Member Admin\n"
+"POT-Creation-Date: 2018-02-09 14:44+0200\n"
+"PO-Revision-Date: 2018-02-09 14:44+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: pmpro-add-member-admin.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: adminpages/addmember.php:6
+msgid "You do not have permissions to perform this action."
+msgstr ""
+
+#: adminpages/addmember.php:135
+msgid "That username is already taken. Please try another."
+msgstr ""
+
+#: adminpages/addmember.php:139
+msgid "That email address is already taken. Please try another."
+msgstr ""
+
+#: adminpages/addmember.php:165
+msgid "Error creating user."
+msgstr ""
+
+#: adminpages/addmember.php:258
+msgid ""
+"The user account has been created, but there were other errors setting up "
+"membership: "
+msgstr ""
+
+#: adminpages/addmember.php:290
+msgid "User"
+msgstr ""
+
+#: adminpages/addmember.php:303
+msgid "Username"
+msgstr ""
+
+#: adminpages/addmember.php:311
+msgid "Email"
+msgstr ""
+
+#: adminpages/addmember.php:319
+msgid "First Name"
+msgstr ""
+
+#: adminpages/addmember.php:327
+msgid "Last Name"
+msgstr ""
+
+#: adminpages/addmember.php:335
+msgid "Password"
+msgstr ""
+
+#: adminpages/addmember.php:346
+msgid "User Notes"
+msgstr ""
+
+#: adminpages/addmember.php:354
+msgid "Role"
+msgstr ""
+
+#: adminpages/addmember.php:374
+msgid "Membership Level"
+msgstr ""
+
+#: adminpages/addmember.php:391
+msgid "Expiration"
+msgstr ""
+
+#: adminpages/addmember.php:426
+msgid "No"
+msgstr ""
+
+#: adminpages/addmember.php:427
+msgid "Yes"
+msgstr ""
+
+#: adminpages/addmember.php:460
+msgid "Payment"
+msgstr ""
+
+#: adminpages/addmember.php:472
+msgid "Order Total"
+msgstr ""
+
+#: adminpages/addmember.php:488
+msgid "Order Notes"
+msgstr ""
+
+#: pmpro-add-member-admin.php:27 pmpro-add-member-admin.php:52
+#: pmpro-add-member-admin.php:65
+msgid "Add Member"
+msgstr ""
+
+#: pmpro-add-member-admin.php:79
+msgid "Visit Customer Support Forum"
+msgstr ""
+
+#: pmpro-add-member-admin.php:79
+msgid "Support"
+msgstr ""
+
+#: pmpro-add-member-admin.php:95
+msgid "+order"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Paid Memberships Pro - Add Member Admin"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.paidmembershipspro.com/wp/pmpro-add-member-admin/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Allow admins to add members in the WP dashboard."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Stranger Studios"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.strangerstudios.com"
+msgstr ""
