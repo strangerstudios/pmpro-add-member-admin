@@ -494,7 +494,13 @@
 		</table>
 		<div>
 			<input type="hidden" name="action" value="add_member" />
-			<?php submit_button('Add Member'); ?>
+			<?php
+			
+			// Adjust submit button text for Add Member or Add Order page.
+			$submit_button_text = ( empty( $user_id ) ) ? __( 'Add Member', 'pmpro-add-member-admin' ) : __( 'Add Order', 'pmpro-add-member-admin' );
+			submit_button( $submit_button_text );
+
+			?>
 		</div>
 </form>
 <script>
@@ -505,4 +511,3 @@
 <?php
 	require_once(PMPRO_DIR . "/adminpages/admin_footer.php");	
 ?>
-
