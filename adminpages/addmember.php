@@ -132,11 +132,11 @@
 			$oldemail = apply_filters("pmpro_checkout_oldemail", $oldemail);
 
 			if (!empty($oldusername)) {
-				pmpro_setMessage(__("That username is already taken. Please try another.", "pmpro"), "pmpro_error");
+				pmpro_setMessage(__("That username is already taken. Please try another.", "pmpro-add-member-admin"), "pmpro_error");
 				$pmpro_error_fields[] = "username";
 			}
 			if (!empty($oldemail)) {
-				pmpro_setMessage(__("That email address is already taken. Please try another.", "pmpro"), "pmpro_error");
+				pmpro_setMessage(__("That email address is already taken. Please try another.", "pmpro-add-member-admin"), "pmpro_error");
 				$pmpro_error_fields[] = "bemail";
 				$pmpro_error_fields[] = "bconfirmemail";
 			}
@@ -162,7 +162,7 @@
 		
 		if(!$user_id)
 		{
-			pmpro_setMessage("Error creating user.", "pmpro_error");
+			pmpro_setMessage( __( "Error creating user.", "pmpro-add-member-admin" ), "pmpro_error");
 		}
 		else
 		{
@@ -255,7 +255,7 @@
 			else
 			{
 				global $pmpro_msg;
-				$pmpro_msg = "The user account has been created, but there were other errors setting up membership: " . $pmpro_msg;
+				$pmpro_msg = __( "The user account has been created, but there were other errors setting up membership: ", "pmpro-add-member-admin" ) . $pmpro_msg;
 			}
 		}
 	}
@@ -287,7 +287,7 @@
 		<tbody>
 			<?php if(!empty($user_id)) { ?>
 				<tr class="user">
-					<th scope="row" valign="top"><label for="user_id"><?php _e('User', 'pmpro');?>:</label></th>
+					<th scope="row" valign="top"><label for="user_id"><?php _e('User', 'pmpro-add-member-admin');?>:</label></th>
 					<td>
 						<a href="<?php echo admin_url('user-edit.php?user_id=' . $user_id);?>"><?php echo $user->display_name; ?></a>
 						<input name="user_id" type="hidden" value="<?php echo esc_attr($user_id); ?>" />
@@ -300,7 +300,7 @@
 			<?php } ?>
 			
 			<tr class="user-info" <?php if(!empty($user_id)) { ?>style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="user_login"><?php _e('Username', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="user_login"><?php _e('Username', 'pmpro-add-member-admin');?>:</label></th>
 				<td>
 					<?php if(!empty($user_id)) echo $user->user_login; else { ?>
 						<input name="user_login" type="text" autocomplete="off" size="50" class="<?php echo pmpro_getClassForField("user_login");?>" value="<?php echo esc_attr($user_login); ?>" />
@@ -308,7 +308,7 @@
 				</td>
 			</tr>
 			<tr class="user-info" <?php if(!empty($user_id)) { ?>style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="user_email"><?php _e('Email', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="user_email"><?php _e('Email', 'pmpro-add-member-admin');?>:</label></th>
 				<td>
 					<?php if(!empty($user_id)) echo $user->user_email; else { ?>
 						<input name="user_email" id="user_email" type="text" autocomplete="off" size="50" class="<?php echo pmpro_getClassForField("user_email");?>" value="<?php echo esc_attr($user_email); ?>" />
@@ -316,7 +316,7 @@
 				</td>
 			</tr>
 			<tr class="user-info" <?php if(!empty($user_id)) { ?>style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="first_name"><?php _e('First Name', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="first_name"><?php _e('First Name', 'pmpro-add-member-admin');?>:</label></th>
 				<td>
 					<?php if(!empty($user_id)) echo $user->first_name; else { ?>
 						<input name="first_name" id="first_name" type="text" autocomplete="off" size="50" class="<?php echo pmpro_getClassForField("first_name");?>" value="<?php echo esc_attr($first_name); ?>" />
@@ -324,7 +324,7 @@
 				</td>
 			</tr>
 			<tr class="user-info" <?php if(!empty($user_id)) { ?>style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="last_name"><?php _e('Last Name', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="last_name"><?php _e('Last Name', 'pmpro-add-member-admin');?>:</label></th>
 				<td>
 					<?php if(!empty($user_id)) echo $user->last_name; else { ?>
 						<input name="last_name" id="last_name" type="text" autocomplete="off" size="50" class="<?php echo pmpro_getClassForField("last_name");?>" value="<?php echo esc_attr($last_name); ?>" />
@@ -332,7 +332,7 @@
 				</td>
 			</tr>
 			<tr <?php if(!empty($user_id)) { ?>style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="user_pass"><?php _e('Password', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="user_pass"><?php _e('Password', 'pmpro-add-member-admin');?>:</label></th>
 				<td>
 					<input name="user_pass" id="user_pass" type="password" autocomplete="off" size="25" class="<?php echo pmpro_getClassForField("user_pass");?>" value="<?php echo esc_attr($user_pass); ?>" />
 					<small><br />If blank, a random password will be generated and emailed to the new member.</small>
@@ -343,7 +343,7 @@
 				<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" value="1" <?php checked($send_password, 1);?>> Send this password to the new user by email.</label></td>
 			</tr>
 			<tr class="user-info" <?php if(!empty($user_id)) { ?>style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="user_notes"><?php _e('User Notes', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="user_notes"><?php _e('User Notes', 'pmpro-add-member-admin');?>:</label></th>
 				<td>
 					<?php if(!empty($user_id)) echo wpautop($user->user_notes); else { ?>
 						<textarea name="user_notes" id="user_notes" rows="5" cols="80" class="<?php echo pmpro_getClassForField("user_notes");?>"><?php echo esc_textarea($user_notes);?></textarea>
@@ -351,7 +351,7 @@
 				</td>
 			</tr>
 			<tr class="user-info" <?php if(!empty($user_id)) { ?>style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="role"><?php _e('Role', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="role"><?php _e('Role', 'pmpro-add-member-admin');?>:</label></th>
 				<td>
 					<?php if(!empty($user_id)) { ?>
 						<?php
@@ -371,7 +371,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row" valign="top"><label for="membership_level"><?php _e('Membership Level', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="membership_level"><?php _e('Membership Level', 'pmpro-add-member-admin');?>:</label></th>
 				<td>					
 					<select name="membership_level" id="membership_level">
 						<option value="" <?php selected("", $membership_level);?> class="<?php echo pmpro_getClassForField("membership_level");?>">No Level</option>
@@ -388,7 +388,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row" valign="top"><label for="expires_date"><?php _e('Expiration', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="expires_date"><?php _e('Expiration', 'pmpro-add-member-admin');?>:</label></th>
 				<td>					
 					<?php
 						//is there an end date?						
@@ -457,7 +457,7 @@
 			?>
 			
 			<tr>
-				<th scope="row" valign="top"><label for="payment"><?php _e('Payment', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="payment"><?php _e('Payment', 'pmpro-add-member-admin');?>:</label></th>
 				<td>
 					<select name="payment" id="payment">
 						<option value="" <?php selected("", $payment);?>>None</option>
@@ -469,7 +469,7 @@
 			</tr>
 						
 			<tr class="payment payment-check payment-gateway payment-credit">
-				<th scope="row" valign="top"><label for="total"><?php _e('Order Total', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="total"><?php _e('Order Total', 'pmpro-add-member-admin');?>:</label></th>
 				<td>
 					<?php
 					global $pmpro_currency_symbol;
@@ -485,7 +485,7 @@
 			</tr>						
 			
 			<tr>
-				<th scope="row" valign="top"><label for="order_notes"><?php _e('Order Notes', 'pmpro');?>:</label></th>
+				<th scope="row" valign="top"><label for="order_notes"><?php _e('Order Notes', 'pmpro-add-member-admin');?>:</label></th>
 				<td>
 					<textarea name="order_notes" id="order_notes" rows="5" cols="80" class="<?php echo pmpro_getClassForField("order_notes");?>"><?php echo esc_textarea($order_notes);?></textarea>
 				</td>
