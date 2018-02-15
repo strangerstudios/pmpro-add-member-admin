@@ -6,7 +6,7 @@ Description: Allow admins to add members in the WP dashboard.
 Version: .2
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
-Text Domain: pmpro-addmember
+Text Domain: pmpro-add-member-admin
 Domain Path: /languages
 */
 
@@ -24,7 +24,7 @@ function pmproama_pmpro_add_pages()
 {	
 	$cap = apply_filters('pmpro_add_member_cap', 'edit_users');
 	
-	add_submenu_page('pmpro-membershiplevels', __('Add Member', 'pmpro-addmember'), __('Add Member', 'pmpro-addmember'), $cap, 'pmpro-addmember', 'pmpro_addmember');
+	add_submenu_page('pmpro-membershiplevels', __('Add Member', 'pmpro-add-member-admin'), __('Add Member', 'pmpro-add-member-admin'), $cap, 'pmpro-addmember', 'pmpro_addmember');
 }
 add_action('admin_menu', 'pmproama_pmpro_add_pages');
 
@@ -49,7 +49,7 @@ function pmproama_admin_bar_menu() {
 		$wp_admin_bar->add_menu( array(
 		'id' => 'pmpro-addmember',
 		'parent' => 'paid-memberships-pro',
-		'title' => __( 'Add Member', 'pmpro'),
+		'title' => __( 'Add Member', 'pmpro-add-member-admin'),
 		'href' => get_admin_url(NULL, '/admin.php?page=pmpro-addmember') ) );
 }
 add_action('admin_bar_menu', 'pmproama_admin_bar_menu', 1001);
@@ -62,7 +62,7 @@ function pmproama_add_action_links($links) {
 	if(current_user_can($cap))
 	{
 		$new_links = array(
-			'<a href="' . get_admin_url(NULL, 'admin.php?page=pmpro-addmember') . '">' . __( 'Add Member', 'pmpro-addmember') . '</a>',
+			'<a href="' . get_admin_url(NULL, 'admin.php?page=pmpro-addmember') . '">' . __( 'Add Member', 'pmpro-add-member-admin') . '</a>',
 		);
 	}
 	return array_merge($new_links, $links);
@@ -76,7 +76,7 @@ function pmproama_plugin_row_meta($links, $file) {
 	if(strpos($file, 'pmpro-add-member-admin.php') !== false)
 	{
 		$new_links = array(
-			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/') . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-addmember' ) ) . '">' . __( 'Support', 'pmpro-addmember' ) . '</a>',
+			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/') . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-add-member-admin' ) ) . '">' . __( 'Support', 'pmpro-add-member-admin' ) . '</a>',
 		);
 		$links = array_merge($links, $new_links);
 	}
@@ -92,7 +92,7 @@ function pmproama_action_links($actions, $user)
 	$cap = apply_filters('pmpro_add_member_cap', 'edit_users');
 	
 	if(current_user_can($cap) && !empty($user->ID))
-		$actions['addorder'] = '<a href="' . admin_url('admin.php?page=pmpro-addmember&user=' . $user->ID) . '">' . __( '+order', 'pmpro-addmember' ) . '</a>';
+		$actions['addorder'] = '<a href="' . admin_url('admin.php?page=pmpro-addmember&user=' . $user->ID) . '">' . __( '+order', 'pmpro-add-member-admin' ) . '</a>';
 		
 	return $actions;
 }
@@ -105,6 +105,6 @@ add_filter('user_row_actions', 'pmproama_action_links', 10, 2);
  * Load Plugin Text Domain for I18N.
  */
 function pmproama_load_plugin_textdomain() {
-	load_plugin_textdomain( 'pmpro-addmember', false, basename( dirname( __FILE__ ) ) . '/languages' ); 
+	load_plugin_textdomain( 'pmpro-add-member-admin', false, basename( dirname( __FILE__ ) ) . '/languages' ); 
 }
 add_action( 'plugins_loaded', 'pmproama_load_plugin_textdomain' );
