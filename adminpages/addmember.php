@@ -3,7 +3,7 @@
 	$cap = apply_filters('pmpro_add_member_cap', 'edit_users');
 	if(!function_exists("current_user_can") || (!current_user_can("manage_options") && !current_user_can($cap)))
 	{
-		die(__("You do not have permissions to perform this action.", "pmpro"));
+		die(__("You do not have permissions to perform this action.", "pmpro-add-member-admin"));
 	}
 
 	global $wpdb, $msg, $msgt, $pmpro_currency_symbol, $pmpro_required_user_fields, $pmpro_error_fields, $pmpro_msg, $pmpro_msgt;
