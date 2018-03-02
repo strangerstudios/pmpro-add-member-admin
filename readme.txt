@@ -3,7 +3,7 @@ Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, memberships
 Requires at least: 4.8
 Tested up to: 4.9.4
-Stable tag: .3
+Stable tag: .4
 
 Adds a form to the admin dashboard under Memberships -> Add Member.
 
@@ -23,6 +23,9 @@ It is not possible at this time to also accept credit card or PayPal payment whi
 1. When viewing the member's list or user's list in the dashboard a "+ order" link will show up under the username that can be used to add a new order for an existing user through the same form.
 
 == Changelog =
+= .4. =
+* ENHANCEMENT: Wrapped strings for localization and added French translation. (Thanks, Thibaut Ninove)
+
 = .3 =
 * BUG FIX/ENHANCEMENT: Add Member button switches to say Add Order when in that context.
 * ENHANCEMENT: Translation ready.
