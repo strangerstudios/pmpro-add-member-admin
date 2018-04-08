@@ -2,7 +2,7 @@
 Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, memberships
 Requires at least: 4.8
-Tested up to: 4.9.4
+Tested up to: 4.9.5
 Stable tag: .4
 
 Adds a form to the admin dashboard under Memberships -> Add Member.

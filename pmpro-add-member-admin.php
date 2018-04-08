@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Paid Memberships Pro - Add Member Admin
-Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-add-member-admin/
+Plugin Name: Paid Memberships Pro - Add Member From Admin
+Plugin URI: https://www.paidmembershipspro.com/add-ons/add-member-admin-add-on/
 Description: Allow admins to add members in the WP dashboard.
 Version: .4
 Author: Stranger Studios
-Author URI: http://www.strangerstudios.com
+Author URI: https://www.paidmembershipspro.com
 Text Domain: pmpro-add-member-admin
 Domain Path: /languages
 */
@@ -57,9 +57,40 @@ function pmproama_admin_bar_menu() {
 }
 add_action( 'admin_bar_menu', 'pmproama_admin_bar_menu', 1001 );
 
-/*
-Function to add links to the plugin action links
-*/
+/* Register activation hook. */
+register_activation_hook( __FILE__, 'pmproama_admin_notice_activation_hook' );
+/**
+ * Runs only when the plugin is activated.
+ *
+ * @since 0.1.0
+ */
+function pmproama_admin_notice_activation_hook() {
+	// Create transient data.
+	set_transient( 'pmproama-admin-notice', true, 5 );
+}
+/**
+ * Admin Notice on Activation.
+ *
+ * @since 0.1.0
+ */
+function pmproama_admin_notice() {
+	// Check transient, if available display notice.
+	if ( get_transient( 'pmproama-admin-notice' ) ) { ?>
+		<div class="updated notice is-dismissible">
+			<p><?php printf( __( 'Thank you for activating. <a href="%s">Visit the Add Member admin page</a> to add new members.', 'pmpro-add-member-admin' ), get_admin_url( null, 'admin.php?page=pmpro-addmember' ) ); ?></p>
+		</div>
+		<?php
+		// Delete transient, only display this notice once.
+		delete_transient( 'pmproama-admin-notice' );
+	}
+}
+add_action( 'admin_notices', 'pmproama_admin_notice' );
+
+/**
+ * Function to add links to the plugin action links
+ *
+ * @param array $links Array of links to be shown in plugin action links.
+ */
 function pmproama_add_action_links( $links ) {
 	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
 	if ( current_user_can( $cap ) ) {
@@ -71,9 +102,12 @@ function pmproama_add_action_links( $links ) {
 }
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmproama_add_action_links' );
 
-/*
-Function to add links to the plugin row meta
-*/
+/**
+ * Function to add links to the plugin row meta
+ *
+ * @param array  $links Array of links to be shown in plugin meta.
+ * @param string $file Filename of the plugin meta is being shown for.
+ */
 function pmproama_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'pmpro-add-member-admin.php' ) !== false ) {
 		$new_links = array(
