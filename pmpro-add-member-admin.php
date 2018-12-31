@@ -57,6 +57,16 @@ function pmproama_admin_bar_menu() {
 }
 add_action( 'admin_bar_menu', 'pmproama_admin_bar_menu', 1001 );
 
+/**
+ * Sends an email to the administrator about the user.
+ * Uses the template "admin_change_admin.html"
+ */
+function pmproama_send_admin_notification( $user_id, $user ) {
+	$pmproemail = new PMProEmail();
+	$pmproemail->sendAdminChangeAdminEmail( $user );	
+}
+add_action( 'pmpro_add_member_added', 'pmproama_send_admin_notification', 10, 2 );
+
 /* Register activation hook. */
 register_activation_hook( __FILE__, 'pmproama_admin_notice_activation_hook' );
 /**
