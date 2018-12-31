@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Add Member From Admin
 Plugin URI: https://www.paidmembershipspro.com/add-ons/add-member-admin-add-on/
 Description: Allow admins to add members in the WP dashboard.
-Version: .4
+Version: .5
 Author: Stranger Studios
 Author URI: https://www.paidmembershipspro.com
 Text Domain: pmpro-add-member-admin
@@ -23,9 +23,14 @@ Domain Path: /languages
 function pmproama_pmpro_add_pages() {
 	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
 
-	add_submenu_page( 'pmpro-membershiplevels', __( 'Add Member', 'pmpro-add-member-admin' ), __( 'Add Member', 'pmpro-add-member-admin' ), $cap, 'pmpro-addmember', 'pmpro_addmember' );
+	if( version_compare( PMPRO_VERSION, '2.0' ) >= 0 ) {
+		add_submenu_page( 'pmpro-dashboard', __( 'Add Member', 'pmpro-add-member-admin' ), __( 'Add Member', 'pmpro-add-member-admin' ), $cap, 'pmpro-addmember', 'pmpro_addmember' );
+	} else {
+		add_submenu_page( 'pmpro-membershiplevels', __( 'Add Member', 'pmpro-add-member-admin' ), __( 'Add Member', 'pmpro-add-member-admin' ), $cap, 'pmpro-addmember', 'pmpro_addmember' );
+	}
+	
 }
-add_action( 'admin_menu', 'pmproama_pmpro_add_pages' );
+add_action( 'admin_menu', 'pmproama_pmpro_add_pages', 20 );
 
 function pmpro_addmember() {
 	require_once( dirname( __FILE__ ) . '/adminpages/addmember.php' );
