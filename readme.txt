@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, memberships
 Requires at least: 4.8
-Tested up to: 5.0.2
-Stable tag: .5
+Tested up to: 5.1.1
+Stable tag: .6
 
 Adds a form to the admin dashboard under Memberships -> Add Member.
 
@@ -23,6 +23,9 @@ It is not possible at this time to also accept credit card or PayPal payment whi
 1. When viewing the member's list or user's list in the dashboard a "+ order" link will show up under the username that can be used to add a new order for an existing user through the same form.
 
 == Changelog ==
+= .6 =
+* BUG/ENHANCEMENT: Fixed compatibility with PMPro MailChimp.
+
 = .5 =
 * BUG FIX: Fixed admin menu code to work with PMPro 2.0
 * FEATURE: Sending admin change emails to the site admin when a new user is added.
