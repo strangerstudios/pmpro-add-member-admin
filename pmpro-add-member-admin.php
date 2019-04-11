@@ -106,6 +106,18 @@ function pmproama_admin_notice() {
 add_action( 'admin_notices', 'pmproama_admin_notice' );
 
 /**
+ * Integration with Paid Memberships Pro MailChimp Add On
+ *
+ * @since 0.6.0
+ */
+function pmproama_plugins_loaded() {
+	if ( function_exists( 'pmpromc_processSubscriptions' ) ) {
+		add_action( 'pmpro_add_member_added', 'pmpromc_processSubscriptions' );
+	}
+}
+add_action( 'plugins_loaded', 'pmproama_plugins_loaded' );
+
+/**
  * Function to add links to the plugin action links
  *
  * @param array $links Array of links to be shown in plugin action links.
