@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Add Member From Admin
 Plugin URI: https://www.paidmembershipspro.com/add-ons/add-member-admin-add-on/
 Description: Allow admins to add members in the WP dashboard.
-Version: .5
+Version: .6
 Author: Stranger Studios
 Author URI: https://www.paidmembershipspro.com
 Text Domain: pmpro-add-member-admin
@@ -104,6 +104,18 @@ function pmproama_admin_notice() {
 	}
 }
 add_action( 'admin_notices', 'pmproama_admin_notice' );
+
+/**
+ * Integration with Paid Memberships Pro MailChimp Add On
+ *
+ * @since 0.6.0
+ */
+function pmproama_plugins_loaded() {
+	if ( function_exists( 'pmpromc_processSubscriptions' ) ) {
+		add_action( 'pmpro_add_member_added', 'pmpromc_processSubscriptions' );
+	}
+}
+add_action( 'plugins_loaded', 'pmproama_plugins_loaded' );
 
 /**
  * Function to add links to the plugin action links
