@@ -514,7 +514,7 @@ style="display: none;"<?php } ?>>
 															<?php
 															if ( $i == $expires_month ) {
 							?>
-							selected="selected"<?php } ?>><?php echo date( 'M', strtotime( $i . '/1/' . $current_year, current_time( 'timestamp' ) ) ); ?></option>
+							selected="selected"<?php } ?>><?php echo date( 'M', strtotime( $i . '/15/' . $current_year, current_time( 'timestamp' ) ) ); ?></option>
 								<?php
 							}
 							?>
