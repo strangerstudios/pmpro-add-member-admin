@@ -2,7 +2,7 @@
 Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, memberships
 Requires at least: 4.8
-Tested up to: 5.1.1
+Tested up to: 5.3
 Stable tag: .6
 
 Adds a form to the admin dashboard under Memberships -> Add Member.
@@ -24,7 +24,8 @@ It is not possible at this time to also accept credit card or PayPal payment whi
 
 == Changelog ==
 = .6 =
-* BUG/ENHANCEMENT: Fixed compatibility with PMPro MailChimp.
+* BUG FIX: Fixed issue where expiration dates could save incorrectly with WP 5.3+.
+* BUG FIX/ENHANCEMENT: Fixed compatibility with PMPro MailChimp.
 
 = .5 =
 * BUG FIX: Fixed admin menu code to work with PMPro 2.0
