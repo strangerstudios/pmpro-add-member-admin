@@ -395,6 +395,9 @@ style="display: none;"<?php } ?>>
 				<th scope="row"><label for="send_password"><?php _e( 'Send Password?', 'pmpro-add-member-admin' ); ?></label></th>
 				<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" value="1" <?php checked( $send_password, 1 ); ?>> <?php _e( 'Send this password to the new user by email.', 'pmpro-add-member-admin' ); ?></label></td>
 			</tr>
+			<?php
+				do_action( 'pmpro_add_member_fields', $user, $user_id );
+			?>
 			<tr class="user-info" 
 			<?php
 			if ( ! empty( $user_id ) ) {
@@ -532,11 +535,6 @@ style="display: none;"<?php } ?>>
 					</script>
 				</td>
 			</tr>
-
-			<?php
-				do_action( 'pmpro_add_member_fields', $user, $user_id );
-			?>
-
 			<tr>
 				<th scope="row" valign="top"><label for="payment"><?php _e( 'Payment', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
