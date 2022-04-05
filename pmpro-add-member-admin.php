@@ -54,6 +54,8 @@ function pmproama_admin_bar_menu() {
 	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
 
 	if ( current_user_can( $cap ) ) {
+
+		//Adds menu item to the 'Memberships' tab in the admin bar
 		$wp_admin_bar->add_menu(
 			array(
 				'id' => 'pmpro-addmember',
@@ -61,6 +63,17 @@ function pmproama_admin_bar_menu() {
 				'title' => __( 'Add Member', 'pmpro-add-member-admin' ),
 				'href' => get_admin_url( null, '/admin.php?page=pmpro-addmember' ),
 			)
+		);
+
+		//Adds menu item to the 'New' tab in the admin bar
+		$wp_admin_bar->add_node(
+			array(
+                'parent' => 'new-content',
+                'id' => 'pmpro-addmember',
+                'title' => __( 'Member', 'pmpro-add-member-admin' ),
+                'href'   => get_admin_url( null, '/admin.php?page=pmpro-addmember' ),
+                'meta'   => false
+            )
 		);
 	}
 }
