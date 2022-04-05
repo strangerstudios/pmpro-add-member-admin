@@ -228,7 +228,14 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 		}
 
 		$user = get_userdata( $user_id );
-		do_action( 'pmpro_add_member_added', $user_id, $user );
+		do_action( 'pmpro_add_member_added', $user_id, $user, $morder );
+
+		//Send user a welcome email
+		pmproada_send_added_email( $user, $morder );
+
+		//Send admin a notification of a new user
+		global $current_user;
+		pmproada_send_added_email_admin( $current_user, $morder );
 
 		// notify user
 		if ( $send_password ) {
