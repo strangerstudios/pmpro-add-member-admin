@@ -2,7 +2,7 @@
 	// only admins can get this
 	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
 if ( ! function_exists( 'current_user_can' ) || ( ! current_user_can( 'manage_options' ) && ! current_user_can( $cap ) ) ) {
-	die( __( 'You do not have permissions to perform this action.', 'pmpro-add-member-admin' ) );
+	die( esc_html__( 'You do not have permissions to perform this action.', 'pmpro-add-member-admin' ) );
 }
 
 	global $wpdb, $msg, $msgt, $pmpro_currency_symbol, $pmpro_required_user_fields, $pmpro_error_fields, $pmpro_msg, $pmpro_msgt;
@@ -158,6 +158,7 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 			// random password if needed
 			if ( empty( $user_pass ) ) {
 				$user_pass = wp_generate_password();
+				$send_password = true; // Force this option to be true, if the password field was empty so the email may be sent.
 			}
 
 			// add user
@@ -238,9 +239,9 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 		if ( $pmpro_msgt != 'pmpro_error' ) {
 			// set message
 			if ( ! empty( $_REQUEST['user'] ) ) {
-				$pmpro_msg = __( 'Order added.', 'pmpro-add-member-admin' );
+				$pmpro_msg = esc_html__( 'Order added.', 'pmpro-add-member-admin' );
 			} else {
-				$pmpro_msg = __( 'Member added.', 'pmpro-add-member-admin' );
+				$pmpro_msg = esc_html__( 'Member added.', 'pmpro-add-member-admin' );
 			}
 
 			$pmpro_msgt = 'pmpro_success';
@@ -264,7 +265,7 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 			}
 		} else {
 			global $pmpro_msg;
-			$pmpro_msg = __( 'The user account has been created, but there were other errors setting up membership: ', 'pmpro-add-member-admin' ) . $pmpro_msg;
+			$pmpro_msg = esc_html__( 'The user account has been created, but there were other errors setting up membership: ', 'pmpro-add-member-admin' ) . $pmpro_msg;
 		}
 	}
 }
@@ -278,9 +279,9 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 <?php
 echo __( 'Add', 'pmpro-add-member-admin' ) . ' ';
 if ( ! empty( $_REQUEST['user'] ) ) {
-	_e( 'Order', 'pmpro-add-member-admin' );
+	esc_html_e( 'Order', 'pmpro-add-member-admin' );
 } else {
-	_e( 'Member', 'pmpro-add-member-admin' );
+	esc_html_e( 'Member', 'pmpro-add-member-admin' );
 }
 ?>
 </h2>
@@ -288,7 +289,7 @@ if ( ! empty( $_REQUEST['user'] ) ) {
 <?php
 if ( $pmpro_msg ) {
 ?>
-	<div id="pmpro_message" class="pmpro_message <?php echo $pmpro_msgt; ?>"><?php echo $pmpro_msg; ?></div>
+	<div id="pmpro_message" class="pmpro_message <?php echo esc_attr( $pmpro_msgt ); ?>"><?php echo esc_html( $pmpro_msg ); ?></div>
 <?php
 } else {
 ?>
@@ -303,14 +304,14 @@ if ( $pmpro_msg ) {
 		<tbody>
 			<?php if ( ! empty( $user_id ) ) { ?>
 				<tr class="user">
-					<th scope="row" valign="top"><label for="user_id"><?php _e( 'User', 'pmpro-add-member-admin' ); ?></label></th>
+					<th scope="row" valign="top"><label for="user_id"><?php esc_html_e( 'User', 'pmpro-add-member-admin' ); ?></label></th>
 					<td>
 						<a href="<?php echo admin_url( 'user-edit.php?user_id=' . $user_id ); ?>"><?php echo $user->display_name; ?></a>
 						<input name="user_id" type="hidden" value="<?php echo esc_attr( $user_id ); ?>" />
 
 						&nbsp;&nbsp;
 
-						<a href="javascript: jQuery('.user-info').show(); jQuery('tr.user').hide(); void(0);"><?php _e( 'show more information', 'pmpro-add-member-admin' ); ?></a>
+						<a href="javascript: jQuery('.user-info').show(); jQuery('tr.user').hide(); void(0);"><?php esc_html_e( 'show more information', 'pmpro-add-member-admin' ); ?></a>
 					</td>
 				</tr>
 			<?php } ?>
@@ -320,7 +321,7 @@ if ( $pmpro_msg ) {
 			if ( ! empty( $user_id ) ) {
 ?>
 style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="user_login"><?php _e( 'Username', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="user_login"><?php esc_html_e( 'Username', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<?php
 					if ( ! empty( $user_id ) ) {
@@ -335,7 +336,7 @@ style="display: none;"<?php } ?>>
 			if ( ! empty( $user_id ) ) {
 ?>
 style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="user_email"><?php _e( 'Email', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="user_email"><?php esc_html_e( 'Email', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<?php
 					if ( ! empty( $user_id ) ) {
@@ -350,7 +351,7 @@ style="display: none;"<?php } ?>>
 			if ( ! empty( $user_id ) ) {
 ?>
 style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="first_name"><?php _e( 'First Name', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="first_name"><?php esc_html_e( 'First Name', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<?php
 					if ( ! empty( $user_id ) ) {
@@ -365,7 +366,7 @@ style="display: none;"<?php } ?>>
 			if ( ! empty( $user_id ) ) {
 ?>
 style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="last_name"><?php _e( 'Last Name', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="last_name"><?php esc_html_e( 'Last Name', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<?php
 					if ( ! empty( $user_id ) ) {
@@ -380,11 +381,11 @@ style="display: none;"<?php } ?>>
 			if ( ! empty( $user_id ) ) {
 ?>
 style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="user_pass"><?php _e( 'Password', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="user_pass"><?php esc_html_e( 'Password', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<input name="user_pass" id="user_pass" type="password" autocomplete="off" size="25" class="<?php echo pmpro_getClassForField( 'user_pass' ); ?>" value="<?php echo esc_attr( $user_pass ); ?>" />
 					<br />
-					<small><?php _e( 'If blank, a random password will be generated and emailed to the new member.', 'pmpro-add-member-admin' ); ?></small>
+					<small><?php esc_html_e( 'If blank, a random password will be generated and emailed to the new member.', 'pmpro-add-member-admin' ); ?></small>
 				</td>
 			</tr>
 			<tr 
@@ -392,8 +393,8 @@ style="display: none;"<?php } ?>>
 			if ( ! empty( $user_id ) ) {
 ?>
 style="display: none;"<?php } ?>>
-				<th scope="row"><label for="send_password"><?php _e( 'Send Password?', 'pmpro-add-member-admin' ); ?></label></th>
-				<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" value="1" <?php checked( $send_password, 1 ); ?>> <?php _e( 'Send this password to the new user by email.', 'pmpro-add-member-admin' ); ?></label></td>
+				<th scope="row"><label for="send_password"><?php esc_html_e( 'Send Password?', 'pmpro-add-member-admin' ); ?></label></th>
+				<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" value="1" <?php checked( $send_password, 1 ); ?>> <?php esc_html_e( 'Send the user an email notification to set their password.', 'pmpro-add-member-admin' ); ?></label></td>
 			</tr>
 			<?php
 				do_action( 'pmpro_add_member_fields', $user, $user_id );
@@ -403,7 +404,7 @@ style="display: none;"<?php } ?>>
 			if ( ! empty( $user_id ) ) {
 ?>
 style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="user_notes"><?php _e( 'User Notes', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="user_notes"><?php esc_html_e( 'User Notes', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<?php
 					if ( ! empty( $user_id ) ) {
@@ -418,7 +419,7 @@ style="display: none;"<?php } ?>>
 			if ( ! empty( $user_id ) ) {
 ?>
 style="display: none;"<?php } ?>>
-				<th scope="row" valign="top"><label for="role"><?php _e( 'Role', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="role"><?php esc_html_e( 'Role', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<?php if ( ! empty( $user_id ) ) { ?>
 						<?php
@@ -437,15 +438,15 @@ style="display: none;"<?php } ?>>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row" valign="top"><label for="membership_level"><?php _e( 'Membership Level', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="membership_level"><?php esc_html_e( 'Membership Level', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<select name="membership_level" id="membership_level">
-						<option value="" <?php selected( '', $membership_level ); ?> class="<?php echo pmpro_getClassForField( 'membership_level' ); ?>"><?php _e( 'No Level', 'pmpro-add-member-admin' ); ?></option>
+						<option value="" <?php selected( '', $membership_level ); ?> class="<?php echo pmpro_getClassForField( 'membership_level' ); ?>"><?php esc_html_e( 'No Level', 'pmpro-add-member-admin' ); ?></option>
 						<?php
 							$levels = pmpro_getAllLevels( true, true );
 						foreach ( $levels as $level ) {
 							?>
-							<option value="<?php echo $level->id; ?>" <?php selected( $level->id, $membership_level ); ?>><?php echo $level->name; ?></option>
+							<option value="<?php echo esc_attr( $level->id ); ?>" <?php selected( $level->id, $membership_level ); ?>><?php echo esc_html( $level->name ); ?></option>
 							<?php
 						}
 						?>
@@ -453,7 +454,7 @@ style="display: none;"<?php } ?>>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row" valign="top"><label for="expires_date"><?php _e( 'Expiration', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="expires_date"><?php esc_html_e( 'Expiration', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<?php
 						// is there an end date?
@@ -496,12 +497,12 @@ style="display: none;"<?php } ?>>
 						<?php
 						if ( ! $end_date ) {
 ?>
-selected="selected"<?php } ?>><?php _e( 'No', 'pmpro-add-member-admin' ); ?></option>
+selected="selected"<?php } ?>><?php esc_html_e( 'No', 'pmpro-add-member-admin' ); ?></option>
 						<option value="1" 
 						<?php
 						if ( $end_date ) {
 ?>
-selected="selected"<?php } ?>><?php _e( 'Yes', 'pmpro-add-member-admin' ); ?></option>
+selected="selected"<?php } ?>><?php esc_html_e( 'Yes', 'pmpro-add-member-admin' ); ?></option>
 					</select>
 					<span id="expires_date" 
 					<?php
@@ -522,8 +523,8 @@ style="display: none;"<?php } ?>>
 							}
 							?>
 						</select>
-						<input name="expires_day" type="text" size="2" value="<?php echo $expires_day; ?>" />
-						<input name="expires_year" type="text" size="4" value="<?php echo $expires_year; ?>" />
+						<input name="expires_day" type="text" size="2" value="<?php echo esc_attr( $expires_day ); ?>" />
+						<input name="expires_year" type="text" size="4" value="<?php echo esc_attr( $expires_year ); ?>" />
 					</span>
 					<script>
 						jQuery('#expires').change(function() {
@@ -536,19 +537,19 @@ style="display: none;"<?php } ?>>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row" valign="top"><label for="payment"><?php _e( 'Payment', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="payment"><?php esc_html_e( 'Payment', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<select name="payment" id="payment">
-						<option value="" <?php selected( '', $payment ); ?>><?php _e( 'None', 'pmpro-add-member-admin' ); ?></option>
-						<option value="check" <?php selected( 'check', $payment ); ?>><?php _e( 'Check/Cash', 'pmpro-add-member-admin' ); ?></option>
-						<option value="gateway" <?php selected( 'gateway', $payment ); ?>><?php _e( 'Gateway (Not Functional)', 'pmpro-add-member-admin' ); ?></option>
-						<option value="credit" <?php selected( 'credit', $payment ); ?>><?php _e( 'Credit Card (Not Functional)', 'pmpro-add-member-admin' ); ?></option>
+						<option value="" <?php selected( '', $payment ); ?>><?php esc_html_e( 'None', 'pmpro-add-member-admin' ); ?></option>
+						<option value="check" <?php selected( 'check', $payment ); ?>><?php esc_html_e( 'Check/Cash', 'pmpro-add-member-admin' ); ?></option>
+						<option value="gateway" <?php selected( 'gateway', $payment ); ?>><?php esc_html_e( 'Gateway (Not Functional)', 'pmpro-add-member-admin' ); ?></option>
+						<option value="credit" <?php selected( 'credit', $payment ); ?>><?php esc_html_e( 'Credit Card (Not Functional)', 'pmpro-add-member-admin' ); ?></option>
 					</select>
 				</td>
 			</tr>
 
 			<tr class="payment payment-check payment-gateway payment-credit">
-				<th scope="row" valign="top"><label for="total"><?php _e( 'Order Total', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="total"><?php esc_html_e( 'Order Total', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<?php
 					global $pmpro_currency_symbol;
@@ -566,7 +567,7 @@ style="display: none;"<?php } ?>>
 			</tr>
 
 			<tr>
-				<th scope="row" valign="top"><label for="order_notes"><?php _e( 'Order Notes', 'pmpro-add-member-admin' ); ?></label></th>
+				<th scope="row" valign="top"><label for="order_notes"><?php esc_html_e( 'Order Notes', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<textarea name="order_notes" id="order_notes" rows="5" cols="80" class="<?php echo pmpro_getClassForField( 'order_notes' ); ?>"><?php echo esc_textarea( $order_notes ); ?></textarea>
 				</td>
@@ -578,7 +579,7 @@ style="display: none;"<?php } ?>>
 			<?php
 
 			// Adjust submit button text for Add Member or Add Order page.
-			$submit_button_text = ( empty( $user_id ) ) ? __( 'Add Member', 'pmpro-add-member-admin' ) : __( 'Add Order', 'pmpro-add-member-admin' );
+			$submit_button_text = ( empty( $user_id ) ) ? esc_html__( 'Add Member', 'pmpro-add-member-admin' ) : esc_html__( 'Add Order', 'pmpro-add-member-admin' );
 			submit_button( $submit_button_text );
 
 			?>
