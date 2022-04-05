@@ -129,7 +129,7 @@ function pmproama_add_action_links( $links ) {
 			'<a href="' . get_admin_url( null, 'admin.php?page=pmpro-addmember' ) . '">' . __( 'Add Member', 'pmpro-add-member-admin' ) . '</a>',
 		);
 	}
-	return array_merge( $new_links, $links );
+	return ( ! empty( $new_links ) && is_array( $new_links ) ) ? array_merge( $new_links, $links ) : $links;
 }
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmproama_add_action_links' );
 
