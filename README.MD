@@ -6,7 +6,7 @@
 ![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg?style=flat-square)
 
 ### Welcome to the Add Member From Admin GitHub Repository
-Add a description of the product here.
+Adds a form to the admin dashboard under Memberships -> Add Member.
 
 For more information please visit [paidmembershipspro.com/add-ons/add-member-admin-add-on/](https://www.paidmembershipspro.com/add-ons/add-member-admin-add-on/)
 
