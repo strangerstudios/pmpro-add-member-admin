@@ -170,7 +170,7 @@ function pmproama_action_links( $actions, $user ) {
 	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
 
 	if ( current_user_can( $cap ) && ! empty( $user->ID ) ) {
-		$actions['addorder'] = '<a href="' . admin_url( 'admin.php?page=pmpro-addmember&user=' . $user->ID ) . '">' . __( '+order', 'pmpro-add-member-admin' ) . '</a>';
+		$actions['addorder'] = '<a href="' . admin_url( 'admin.php?page=pmpro-orders&order=-1' ) . '">' . __( '+order', 'pmpro-add-member-admin' ) . '</a>';
 	}
 
 	return $actions;
@@ -348,31 +348,35 @@ function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
 
 	global $wpdb, $current_user;
 
-	if(!$user)
+	if ( ! $user ) {
 		$user = $current_user;
+	}
+		
 	
-	if(!$user)
+	if ( ! $user ) {
 		return false;
+	}
+		
 
-	if( !class_exists( 'PMProEmail' ) ) {
+	if ( ! class_exists( 'PMProEmail' ) ) {
 		return false;
 	}
 
     $pmproemail = new PMProEmail();
 	
-	$pmproemail->email = get_bloginfo("admin_email");
+	$pmproemail->email = get_bloginfo( 'admin_email' );
 
 	$pmproemail->data = array(
-		"user_login" => $user->user_login, 
-		"user_email" => $user->user_email, 
-		"display_name" => $user->display_name, 
-		"sitename" => get_option( "blogname" ), 
-		"siteemail" => pmpro_getOption( "from_email" ), 
-		"login_link" => pmpro_login_url(), 
-		"login_url" => pmpro_login_url()
+		'user_login' => $user->user_login, 
+		'user_email' => $user->user_email, 
+		'display_name' => $user->display_name, 
+		'sitename' => get_option( 'blogname' ), 
+		'siteemail' => pmpro_getOption( 'from_email' ), 
+		'login_link' => pmpro_login_url(), 
+		'login_url' => pmpro_login_url()
 	);
 	
-	if( !empty( $order ) && intval( $order->membership_id ) !== 0 ) {
+	if ( ! empty( $order ) && intval( $order->membership_id ) !== 0 ) {
 
 		$membership_id = $order->membership_id;
 
