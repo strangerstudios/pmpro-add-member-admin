@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Add Member From Admin
 Plugin URI: https://www.paidmembershipspro.com/add-ons/add-member-admin-add-on/
 Description: Allow admins to add members in the WP dashboard.
-Version: .6
+Version: 0.7
 Author: Stranger Studios
 Author URI: https://www.paidmembershipspro.com
 Text Domain: pmpro-add-member-admin
@@ -194,7 +194,7 @@ add_action( 'plugins_loaded', 'pmproama_load_plugin_textdomain' );
  * @param array $pmproet_email_defaults Default email template arrays
  * @return array $pmproet_email_defaults Returns an updated array of email templates
  *
- * @since TBD
+ * @since 0.7
  */
 function pmproama_email_templates( $pmproet_email_defaults ) {
 
@@ -267,7 +267,7 @@ add_filter( 'pmproet_templates', 'pmproama_email_templates', 10, 1 );
  *
  * @return bool Successful email sent
  * 
- * @since TBD
+ * @since 0.7
  */
 function pmproada_send_added_email( $user = NULL, $order = NULL ){
 
@@ -342,7 +342,7 @@ function pmproada_send_added_email( $user = NULL, $order = NULL ){
  *
  * @return bool Successful email sent
  * 
- * @since TBD
+ * @since 0.7
  */
 function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
 

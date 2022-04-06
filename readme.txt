@@ -1,9 +1,9 @@
 === Paid Memberships Pro - Add Member From Admin ===
 Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, memberships
-Requires at least: 4.8
-Tested up to: 5.3
-Stable tag: .6
+Requires at least: 5.0
+Tested up to: 5.9
+Stable tag: 0.7
 
 Adds a form to the admin dashboard under Memberships -> Add Member.
 
@@ -23,6 +23,13 @@ It is not possible at this time to also accept credit card or PayPal payment whi
 1. When viewing the member's list or user's list in the dashboard a "+ order" link will show up under the username that can be used to add a new order for an existing user through the same form.
 
 == Changelog ==
+= 0.7 - 2022-04-06 =
+* ENHANCEMENT: General improvements to localization and escaping strings on output.
+* ENHANCEMENT: Added custom email templates for the add member that sends to admin and the user created.
+* BUG FIX: Minor tweak to the wording of the Send Password option to make it clearer what this means.
+* BUG FIX: Fixed logic where blank password would not trigger the password reset email.
+* BUG FIX: The "+order" button goes to the default add order page of Paid Memberships Pro.
+
 = .6 =
 * BUG FIX: Fixed issue where expiration dates could save incorrectly with WP 5.3+.
 * BUG FIX/ENHANCEMENT: Fixed compatibility with PMPro MailChimp.
