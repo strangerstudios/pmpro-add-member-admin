@@ -187,3 +187,228 @@ function pmproama_load_plugin_textdomain() {
 	load_plugin_textdomain( 'pmpro-add-member-admin', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 add_action( 'plugins_loaded', 'pmproama_load_plugin_textdomain' );
+
+/**
+ * Creates email templates for when a member has been added
+ *
+ * @param array $pmproet_email_defaults Default email template arrays
+ * @return array $pmproet_email_defaults Returns an updated array of email templates
+ *
+ * @since TBD
+ */
+function pmproama_email_templates( $pmproet_email_defaults ) {
+
+	//These emails can be based off of the checkout_check email
+
+	$subject = "Your membership confirmation for !!sitename!!";
+
+	$body = "<p>Thank you for your membership to !!sitename!!. Your membership account is now active.</p>
+
+	!!membership_level_confirmation_message!!
+
+	<p>Below are details about your membership account and a receipt for your initial membership invoice.</p>
+
+	<p>Account: !!display_name!! (!!user_email!!)</p>
+	<p>Membership Level: !!membership_level_name!!</p>
+	<p>Membership Fee: !!membership_cost!!</p>
+	!!membership_expiration!!
+
+	<p>
+		Invoice #!!invoice_id!! on !!invoice_date!!<br />
+		Total Billed: !!invoice_total!!
+	</p>
+
+	<p>Log in to your membership account here: !!login_url!!</p>";
+
+    $pmproet_email_defaults['add_member_added'] = array(
+	    'subject' => $subject,
+	    'description' => __( 'Add Member from Admin Added', 'pmpro-customizations'),
+	    'body' => $body,
+	    'help_text' => __( 'This is a membership confirmation welcome email sent to a new member when adding them from the Add Member from Admin page.', 'pmpro-add-member-admin' )
+    );
+
+    $subject_admin = "Member checkout for !!membership_level_name!! at !!sitename!!";
+
+    $body_admin = "<p>There was a new member checkout at !!sitename!!.</p>
+
+	<p><strong>They have been added from the Add Member from Admin page.</strong></p>
+
+	<p>Below are details about the new membership account and a receipt for the initial membership invoice.</p>
+
+	<p>Account: !!display_name!! (!!user_email!!)</p>
+	<p>Membership Level: !!membership_level_name!!</p>
+	<p>Membership Fee: !!membership_cost!!</p>
+	!!membership_expiration!!
+
+	<p>
+		Invoice #!!invoice_id!! on !!invoice_date!!<br />
+		Total Billed: !!invoice_total!!
+	</p>
+
+	<p>Log in to your membership account here: !!login_url!!</p>";
+
+    $pmproet_email_defaults['add_member_added_admin'] = array(
+	    'subject' => $subject_admin,
+	    'description' => __( 'Add Member from Admin Added (admin)', 'pmpro-customizations'),
+	    'body' => $body_admin,
+	    'help_text' => __( 'This is a membership confirmation notification email sent to the admin when adding them from the Add Member from Admin page.', 'pmpro-add-member-admin' )
+    );
+   
+    return $pmproet_email_defaults;
+
+}
+add_filter( 'pmproet_templates', 'pmproama_email_templates', 10, 1 );
+
+/**
+ * Sends an email to the member that has been added
+ *
+ * @param object $user The user we want to send details to
+ * @param MemberOrder $order The user's order details
+ *
+ * @return bool Successful email sent
+ * 
+ * @since TBD
+ */
+function pmproada_send_added_email( $user = NULL, $order = NULL ){
+
+	global $wpdb, $current_user;
+
+	if( !$user ){
+		$user = $current_user;
+	}
+	
+	if( !$user ){
+		return false;
+	}
+
+	if( !class_exists( 'PMProEmail' ) ) {
+		return false;
+	}
+
+    $pmproemail = new PMProEmail();
+
+	$pmproemail->email = $user->user_email;
+
+	$confirmation_in_email = get_pmpro_membership_level_meta( $user->membership_level->id, 'confirmation_in_email', true );
+	if ( ! empty( $confirmation_in_email ) ) {
+		$confirmation_message = $user->membership_level->confirmation;
+	} else {
+		$confirmation_message = '';
+	}
+
+	if( $order->getDiscountCode() ) {
+		$discount_code = "<p>" . __("Discount Code", 'pmpro-add-member-admin' ) . ": " . $order->discount_code->code . "</p>\n";
+	} else {
+		$discount_code = "";
+	}
+
+	$pmproemail->data = array( 
+		"user_email" => $user->user_email, 
+		"display_name" => $user->display_name, 
+		"user_login" => $user->user_login, 
+		"sitename" => get_option( "blogname" ), 
+		"siteemail" => pmpro_getOption( "from_email" ),
+		"membership_level_confirmation_message" => $confirmation_message,
+		"membership_cost" => pmpro_getLevelCost( $user->membership_level ),
+		"discount_code" => $discount_code,
+		"invoice_id" => $order->id,
+		"invoice_date" => date_i18n( get_option( 'date_format' ), $order->getTimestamp() ),
+		"invoice_total" => pmpro_formatPrice( $order->total ),
+	);
+
+	if( !empty( $order ) && intval( $order->membership_id ) !== 0 ) {
+		
+		$membership_id = $order->membership_id;
+
+		$pmproemail->data['membership_id'] = $membership_id;
+		$pmproemail->data['membership_level_name'] = pmpro_implodeToEnglish( $wpdb->get_col("SELECT name FROM $wpdb->pmpro_membership_levels WHERE id = '".$membership_id."'" ) );
+
+	} else {
+		$pmproemail->data['membership_id'] = '';
+		$pmproemail->data['membership_level_name'] = __('All Levels', 'pmpro-add-member-admin' );
+	}
+
+	$pmproemail->template = apply_filters("pmpro_email_template", "add_member_added", $pmproemail );
+
+	return $pmproemail->sendEmail();	
+	
+}
+
+/**
+ * Sends an email to the admin that a new member has been added
+ *
+ * @param object $user The user we want to send details to
+ * @param MemberOrder $order The member's order details
+ *
+ * @return bool Successful email sent
+ * 
+ * @since TBD
+ */
+function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
+
+	global $wpdb, $current_user;
+
+	if ( ! $user ) {
+		$user = $current_user;
+	}
+		
+	
+	if ( ! $user ) {
+		return false;
+	}
+		
+
+	if ( ! class_exists( 'PMProEmail' ) ) {
+		return false;
+	}
+
+    $pmproemail = new PMProEmail();
+	
+	$pmproemail->email = get_bloginfo( 'admin_email' );
+
+	$pmproemail->data = array(
+		'user_login' => $user->user_login, 
+		'user_email' => $user->user_email, 
+		'display_name' => $user->display_name, 
+		'sitename' => get_option( 'blogname' ), 
+		'siteemail' => pmpro_getOption( 'from_email' ), 
+		'login_link' => pmpro_login_url(), 
+		'login_url' => pmpro_login_url()
+	);
+	
+	if ( ! empty( $order ) && intval( $order->membership_id ) !== 0 ) {
+
+		$membership_id = $order->membership_id;
+
+		$pmproemail->data['membership_id'] = $membership_id;
+		$pmproemail->data['membership_level_name'] = pmpro_implodeToEnglish( $wpdb->get_col("SELECT name FROM $wpdb->pmpro_membership_levels WHERE id = '".$membership_id."'" ) );
+
+		//start and end date
+		$startdate = $wpdb->get_var("SELECT UNIX_TIMESTAMP(CONVERT_TZ(startdate, '+00:00', @@global.time_zone)) as startdate FROM $wpdb->pmpro_memberships_users WHERE user_id = '" . $user->ID . "' AND membership_id = '" . $membership_id . "' AND status IN('inactive', 'cancelled', 'admin_cancelled') ORDER BY id DESC");
+
+		if( !empty( $startdate ) ) {
+			$pmproemail->data['startdate'] = date_i18n(get_option('date_format'), $startdate);
+		} else {
+			$pmproemail->data['startdate'] = "";
+		}
+
+		$enddate = $wpdb->get_var("SELECT UNIX_TIMESTAMP(CONVERT_TZ(enddate, '+00:00', @@global.time_zone)) as enddate FROM $wpdb->pmpro_memberships_users WHERE user_id = '" . $user->ID . "' AND membership_id = '" . $membership_id . "' AND status IN('inactive', 'cancelled', 'admin_cancelled') ORDER BY id DESC");
+
+		if( !empty( $enddate ) ) {
+			$pmproemail->data['enddate'] = date_i18n(get_option('date_format'), $enddate);
+		} else {
+			$pmproemail->data['enddate'] = "";
+		}
+
+	} else {
+		$pmproemail->data['membership_id'] = '';
+		$pmproemail->data['membership_level_name'] = __('All Levels', 'pmpro-add-member-admin' );
+		$pmproemail->data['startdate'] = '';
+		$pmproemail->data['enddate'] = '';
+	}
+
+	$pmproemail->template = apply_filters("pmpro_email_template", "add_member_added_admin", $pmproemail);
+
+	return $pmproemail->sendEmail();	
+
+}
