@@ -199,17 +199,58 @@ add_action( 'plugins_loaded', 'pmproama_load_plugin_textdomain' );
 function pmproama_email_templates( $pmproet_email_defaults ) {
 
 	//These emails can be based off of the checkout_check email
+
+	$subject = "Your membership confirmation for !!sitename!!";
+
+	$body = "<p>Thank you for your membership to !!sitename!!. Your membership account is now active.</p>
+
+	!!membership_level_confirmation_message!!
+
+	<p>Below are details about your membership account and a receipt for your initial membership invoice.</p>
+
+	<p>Account: !!display_name!! (!!user_email!!)</p>
+	<p>Membership Level: !!membership_level_name!!</p>
+	<p>Membership Fee: !!membership_cost!!</p>
+	!!membership_expiration!!
+
+	<p>
+		Invoice #!!invoice_id!! on !!invoice_date!!<br />
+		Total Billed: !!invoice_total!!
+	</p>
+
+	<p>Log in to your membership account here: !!login_url!!</p>";
+
     $pmproet_email_defaults['add_member_added'] = array(
-	    'subject' => $pmproet_email_defaults['checkout_check']['subject'],
+	    'subject' => $subject,
 	    'description' => __( 'Add Member from Admin Added', 'pmpro-customizations'),
-	    'body' => $pmproet_email_defaults['checkout_check']['body'],
+	    'body' => $body,
 	    'help_text' => __( 'This is a membership confirmation welcome email sent to a new member when adding them from the Add Member from Admin page.', 'pmpro-add-member-admin' )
     );
 
+    $subject_admin = "Member checkout for !!membership_level_name!! at !!sitename!!";
+
+    $body_admin = "<p>There was a new member checkout at !!sitename!!.</p>
+
+	<p><strong>They have been added from the Add Member from Admin page.</strong></p>
+
+	<p>Below are details about the new membership account and a receipt for the initial membership invoice.</p>
+
+	<p>Account: !!display_name!! (!!user_email!!)</p>
+	<p>Membership Level: !!membership_level_name!!</p>
+	<p>Membership Fee: !!membership_cost!!</p>
+	!!membership_expiration!!
+
+	<p>
+		Invoice #!!invoice_id!! on !!invoice_date!!<br />
+		Total Billed: !!invoice_total!!
+	</p>
+
+	<p>Log in to your membership account here: !!login_url!!</p>";
+
     $pmproet_email_defaults['add_member_added_admin'] = array(
-	    'subject' => $pmproet_email_defaults['checkout_check_admin']['subject'],
+	    'subject' => $subject_admin,
 	    'description' => __( 'Add Member from Admin Added (admin)', 'pmpro-customizations'),
-	    'body' => $pmproet_email_defaults['checkout_check_admin']['body'],
+	    'body' => $body_admin,
 	    'help_text' => __( 'This is a membership confirmation notification email sent to the admin when adding them from the Add Member from Admin page.', 'pmpro-add-member-admin' )
     );
    
@@ -248,6 +289,19 @@ function pmproada_send_added_email( $user = NULL, $order = NULL ){
 
 	$pmproemail->email = $user->user_email;
 
+	$confirmation_in_email = get_pmpro_membership_level_meta( $user->membership_level->id, 'confirmation_in_email', true );
+	if ( ! empty( $confirmation_in_email ) ) {
+		$confirmation_message = $user->membership_level->confirmation;
+	} else {
+		$confirmation_message = '';
+	}
+
+	if( $order->getDiscountCode() ) {
+		$discount_code = "<p>" . __("Discount Code", 'pmpro-add-member-admin' ) . ": " . $order->discount_code->code . "</p>\n";
+	} else {
+		$discount_code = "";
+	}
+
 	$pmproemail->data = array( 
 		"user_email" => $user->user_email, 
 		"display_name" => $user->display_name, 
@@ -255,7 +309,6 @@ function pmproada_send_added_email( $user = NULL, $order = NULL ){
 		"sitename" => get_option( "blogname" ), 
 		"siteemail" => pmpro_getOption( "from_email" ),
 		"membership_level_confirmation_message" => $confirmation_message,
-		"instructions" => wpautop( pmpro_getOption( "instructions" ) ),
 		"membership_cost" => pmpro_getLevelCost( $user->membership_level ),
 		"discount_code" => $discount_code,
 		"invoice_id" => $order->id,
