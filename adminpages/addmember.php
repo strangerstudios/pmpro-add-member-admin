@@ -234,8 +234,7 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 		pmproada_send_added_email( $user, $morder );
 
 		//Send admin a notification of a new user
-		global $current_user;
-		pmproada_send_added_email_admin( $current_user, $morder );
+		pmproada_send_added_email_admin( $user, $morder );
 
 		// notify user
 		if ( $send_password ) {

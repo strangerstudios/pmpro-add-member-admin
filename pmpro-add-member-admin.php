@@ -367,6 +367,7 @@ function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
 	$pmproemail->email = get_bloginfo( 'admin_email' );
 
 	$pmproemail->data = array(
+		'name' => $current_user->display_name,
 		'user_login' => $user->user_login, 
 		'user_email' => $user->user_email, 
 		'display_name' => $user->display_name, 
