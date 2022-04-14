@@ -23,6 +23,10 @@ It is not possible at this time to also accept credit card or PayPal payment whi
 1. When viewing the member's list or user's list in the dashboard a "+ order" link will show up under the username that can be used to add a new order for an existing user through the same form.
 
 == Changelog ==
+= 0.7.1 - 2022-04-14 =
+* BUG FIX: Fixed admin email template data showing incorrect user information for recently added member.
+* BUG FIX: Reverted changes for the "+order" link URL, this would require further thought and plans to adjust in the future than anticipated.
+
 = 0.7 - 2022-04-06 =
 * ENHANCEMENT: General improvements to localization and escaping strings on output.
 * ENHANCEMENT: Added custom email templates for the add member that sends to admin and the user created.
