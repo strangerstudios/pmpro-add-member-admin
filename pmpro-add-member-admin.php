@@ -170,7 +170,7 @@ function pmproama_action_links( $actions, $user ) {
 	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
 
 	if ( current_user_can( $cap ) && ! empty( $user->ID ) ) {
-		$actions['addorder'] = '<a href="' . admin_url( 'admin.php?page=pmpro-orders&order=-1' ) . '">' . __( '+order', 'pmpro-add-member-admin' ) . '</a>';
+		$actions['addorder'] = '<a href="' . admin_url( 'admin.php?page=pmpro-addmember&user=' . (int) $user->ID ) . '">' . __( '+order', 'pmpro-add-member-admin' ) . '</a>';
 	}
 
 	return $actions;
