@@ -60,8 +60,8 @@ function pmproama_admin_bar_menu() {
 			array(
 				'id' => 'pmpro-addmember',
 				'parent' => 'paid-memberships-pro',
-				'title' => __( 'Add Member', 'pmpro-add-member-admin' ),
-				'href' => get_admin_url( null, '/admin.php?page=pmpro-addmember' ),
+				'title' => esc_html__( 'Add Member', 'pmpro-add-member-admin' ),
+				'href' => esc_url( get_admin_url( null, '/admin.php?page=pmpro-addmember' ) ),
 			)
 		);
 
@@ -70,8 +70,8 @@ function pmproama_admin_bar_menu() {
 			array(
                 'parent' => 'new-content',
                 'id' => 'pmpro-addmember',
-                'title' => __( 'Member', 'pmpro-add-member-admin' ),
-                'href'   => get_admin_url( null, '/admin.php?page=pmpro-addmember' ),
+                'title' => esc_html__( 'Member', 'pmpro-add-member-admin' ),
+                'href'   => esc_url( get_admin_url( null, '/admin.php?page=pmpro-addmember' ) ),
                 'meta'   => false
             )
 		);
@@ -109,7 +109,7 @@ function pmproama_admin_notice() {
 	// Check transient, if available display notice.
 	if ( get_transient( 'pmproama-admin-notice' ) ) { ?>
 		<div class="updated notice is-dismissible">
-			<p><?php printf( __( 'Thank you for activating. <a href="%s">Visit the Add Member admin page</a> to add new members.', 'pmpro-add-member-admin' ), get_admin_url( null, 'admin.php?page=pmpro-addmember' ) ); ?></p>
+			<p><?php printf( __( 'Thank you for activating. <a href="%s">Visit the Add Member admin page</a> to add new members.', 'pmpro-add-member-admin' ), esc_url( get_admin_url( null, 'admin.php?page=pmpro-addmember' ) ) ); ?></p>
 		</div>
 		<?php
 		// Delete transient, only display this notice once.
@@ -139,7 +139,7 @@ function pmproama_add_action_links( $links ) {
 	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
 	if ( current_user_can( $cap ) ) {
 		$new_links = array(
-			'<a href="' . get_admin_url( null, 'admin.php?page=pmpro-addmember' ) . '">' . __( 'Add Member', 'pmpro-add-member-admin' ) . '</a>',
+			'<a href="' . esc_url( get_admin_url( null, 'admin.php?page=pmpro-addmember' ) ) . '">' . esc_html__( 'Add Member', 'pmpro-add-member-admin' ) . '</a>',
 		);
 	}
 	return ( ! empty( $new_links ) && is_array( $new_links ) ) ? array_merge( $new_links, $links ) : $links;
@@ -155,7 +155,7 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmproama_add_
 function pmproama_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'pmpro-add-member-admin.php' ) !== false ) {
 		$new_links = array(
-			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-add-member-admin' ) ) . '">' . __( 'Support', 'pmpro-add-member-admin' ) . '</a>',
+			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-add-member-admin' ) ) . '">' . esc_html__( 'Support', 'pmpro-add-member-admin' ) . '</a>',
 		);
 		$links = array_merge( $links, $new_links );
 	}
@@ -170,7 +170,7 @@ function pmproama_action_links( $actions, $user ) {
 	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
 
 	if ( current_user_can( $cap ) && ! empty( $user->ID ) ) {
-		$actions['addorder'] = '<a href="' . admin_url( 'admin.php?page=pmpro-addmember&user=' . (int) $user->ID ) . '">' . __( '+order', 'pmpro-add-member-admin' ) . '</a>';
+		$actions['addorder'] = '<a href="' . esc_url( admin_url( 'admin.php?page=pmpro-addmember&user=' . (int) $user->ID ) ) . '">' . esc_html__( '+order', 'pmpro-add-member-admin' ) . '</a>';
 	}
 
 	return $actions;
@@ -297,7 +297,7 @@ function pmproada_send_added_email( $user = NULL, $order = NULL ){
 	}
 
 	if( $order->getDiscountCode() ) {
-		$discount_code = "<p>" . __("Discount Code", 'pmpro-add-member-admin' ) . ": " . $order->discount_code->code . "</p>\n";
+		$discount_code = "<p>" . esc_html__("Discount Code", 'pmpro-add-member-admin' ) . ": " . esc_html( $order->discount_code->code ) . "</p>\n";
 	} else {
 		$discount_code = "";
 	}
@@ -318,10 +318,10 @@ function pmproada_send_added_email( $user = NULL, $order = NULL ){
 
 	if( !empty( $order ) && intval( $order->membership_id ) !== 0 ) {
 		
-		$membership_id = $order->membership_id;
+		$membership_id = intval( $order->membership_id );
 
 		$pmproemail->data['membership_id'] = $membership_id;
-		$pmproemail->data['membership_level_name'] = pmpro_implodeToEnglish( $wpdb->get_col("SELECT name FROM $wpdb->pmpro_membership_levels WHERE id = '".$membership_id."'" ) );
+		$pmproemail->data['membership_level_name'] = pmpro_implodeToEnglish( $wpdb->get_col("SELECT name FROM $wpdb->pmpro_membership_levels WHERE id = '". esc_sql( $membership_id ) ."'" ) );
 
 	} else {
 		$pmproemail->data['membership_id'] = '';
@@ -379,13 +379,13 @@ function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
 	
 	if ( ! empty( $order ) && intval( $order->membership_id ) !== 0 ) {
 
-		$membership_id = $order->membership_id;
+		$membership_id = intval( $order->membership_id );
 
 		$pmproemail->data['membership_id'] = $membership_id;
-		$pmproemail->data['membership_level_name'] = pmpro_implodeToEnglish( $wpdb->get_col("SELECT name FROM $wpdb->pmpro_membership_levels WHERE id = '".$membership_id."'" ) );
+		$pmproemail->data['membership_level_name'] = pmpro_implodeToEnglish( $wpdb->get_col("SELECT name FROM $wpdb->pmpro_membership_levels WHERE id = '" . esc_sql( $membership_id ). "'" ) );
 
 		//start and end date
-		$startdate = $wpdb->get_var("SELECT UNIX_TIMESTAMP(CONVERT_TZ(startdate, '+00:00', @@global.time_zone)) as startdate FROM $wpdb->pmpro_memberships_users WHERE user_id = '" . $user->ID . "' AND membership_id = '" . $membership_id . "' AND status IN('inactive', 'cancelled', 'admin_cancelled') ORDER BY id DESC");
+		$startdate = $wpdb->get_var("SELECT UNIX_TIMESTAMP(CONVERT_TZ(startdate, '+00:00', @@global.time_zone)) as startdate FROM $wpdb->pmpro_memberships_users WHERE user_id = '" . esc_sql( $user->ID ) . "' AND membership_id = '" . esc_sql( $membership_id ) . "' AND status IN('inactive', 'cancelled', 'admin_cancelled') ORDER BY id DESC");
 
 		if( !empty( $startdate ) ) {
 			$pmproemail->data['startdate'] = date_i18n(get_option('date_format'), $startdate);
@@ -393,7 +393,7 @@ function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
 			$pmproemail->data['startdate'] = "";
 		}
 
-		$enddate = $wpdb->get_var("SELECT UNIX_TIMESTAMP(CONVERT_TZ(enddate, '+00:00', @@global.time_zone)) as enddate FROM $wpdb->pmpro_memberships_users WHERE user_id = '" . $user->ID . "' AND membership_id = '" . $membership_id . "' AND status IN('inactive', 'cancelled', 'admin_cancelled') ORDER BY id DESC");
+		$enddate = $wpdb->get_var("SELECT UNIX_TIMESTAMP(CONVERT_TZ(enddate, '+00:00', @@global.time_zone)) as enddate FROM $wpdb->pmpro_memberships_users WHERE user_id = '" . esc_sql( $user->ID ) . "' AND membership_id = '" . esc_sql( $membership_id ) . "' AND status IN('inactive', 'cancelled', 'admin_cancelled') ORDER BY id DESC");
 
 		if( !empty( $enddate ) ) {
 			$pmproemail->data['enddate'] = date_i18n(get_option('date_format'), $enddate);

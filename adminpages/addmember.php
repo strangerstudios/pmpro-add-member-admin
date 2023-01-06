@@ -31,31 +31,31 @@ if ( ! empty( $user_id ) ) {
 	$role = '';
 } else {
 	if ( ! empty( $_POST['user_login'] ) ) {
-		$user_login = $_POST['user_login'];
+		$user_login = sanitize_text_field( $_POST['user_login'] );
 	} else {
 		$user_login = '';
 	}
 
 	if ( ! empty( $_POST['user_email'] ) ) {
-		$user_email = $_POST['user_email'];
+		$user_email = sanitize_text_field( $_POST['user_email'] );
 	} else {
 		$user_email = '';
 	}
 
 	if ( ! empty( $_POST['first_name'] ) ) {
-		$first_name = $_POST['first_name'];
+		$first_name = sanitize_text_field( $_POST['first_name'] );
 	} else {
 		$first_name = '';
 	}
 
 	if ( ! empty( $_POST['last_name'] ) ) {
-		$last_name = $_POST['last_name'];
+		$last_name = sanitize_text_field( $_POST['last_name'] );
 	} else {
 		$last_name = '';
 	}
 
 	if ( ! empty( $_POST['user_pass'] ) ) {
-		$user_pass = $_POST['user_pass'];
+		$user_pass = sanitize_text_field( $_POST['user_pass'] );
 	} else {
 		$user_pass = '';
 	}
@@ -67,20 +67,20 @@ if ( ! empty( $user_id ) ) {
 	}
 
 	if ( ! empty( $_POST['user_notes'] ) ) {
-		$user_notes = $_POST['user_notes'];
+		$user_notes = sanitize_text_field( $_POST['user_notes'] );
 	} else {
 		$user_notes = '';
 	}
 
 	if ( ! empty( $_POST['role'] ) ) {
-		$role = $_POST['role'];
+		$role = sanitize_text_field( $_POST['role'] );
 	} else {
 		$role = get_option( 'default_role' );
 	}
 }
 
 if ( isset( $_POST['membership_level'] ) ) {
-	$membership_level = $_POST['membership_level'];
+	$membership_level = intval( $_POST['membership_level'] );
 } elseif ( ! empty( $user ) ) {
 	$user->membership_level = pmpro_getMembershipLevelForUser( $user_id );
 	if ( ! empty( $user->membership_level ) ) {
@@ -93,7 +93,7 @@ if ( isset( $_POST['membership_level'] ) ) {
 }
 
 if ( ! empty( $_POST['payment'] ) ) {
-	$payment = $_POST['payment'];
+	$payment = sanitize_text_field( $_POST['payment'] );
 } else {
 	$payment = 'payment';
 }
@@ -105,13 +105,13 @@ if ( $payment == 'check' ) {
 }
 
 if ( ! empty( $_POST['total'] ) ) {
-	$total = $_POST['total'];
+	$total = floatval( $_POST['total'] );
 } else {
 	$total = '';
 }
 
 if ( ! empty( $_POST['order_notes'] ) ) {
-	$order_notes = $_POST['order_notes'];
+	$order_notes = sanitize_text_field( $_POST['order_notes'] );
 } else {
 	$order_notes = '';
 }
@@ -134,7 +134,7 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 		}
 
 		if ( ! empty( $pmpro_error_fields ) ) {
-			pmpro_setMessage( __( 'Please fill out all required fields:', 'pmpro-add-member-admin' ) . ' ' . implode( ', ', $pmpro_error_fields ), 'pmpro_error' );
+			pmpro_setMessage( esc_html__( 'Please fill out all required fields:', 'pmpro-add-member-admin' ) . ' ' . implode( ', ', $pmpro_error_fields ), 'pmpro_error' );
 		}
 
 		// check if user exists
@@ -144,11 +144,11 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 		$oldemail = apply_filters( 'pmpro_checkout_oldemail', $oldemail );
 
 		if ( ! empty( $oldusername ) ) {
-			pmpro_setMessage( __( 'That username is already taken. Please try another.', 'pmpro-add-member-admin' ), 'pmpro_error' );
+			pmpro_setMessage( esc_html__( 'That username is already taken. Please try another.', 'pmpro-add-member-admin' ), 'pmpro_error' );
 			$pmpro_error_fields[] = 'username';
 		}
 		if ( ! empty( $oldemail ) ) {
-			pmpro_setMessage( __( 'That email address is already taken. Please try another.', 'pmpro-add-member-admin' ), 'pmpro_error' );
+			pmpro_setMessage( esc_html__( 'That email address is already taken. Please try another.', 'pmpro-add-member-admin' ), 'pmpro_error' );
 			$pmpro_error_fields[] = 'bemail';
 			$pmpro_error_fields[] = 'bconfirmemail';
 		}
@@ -176,7 +176,7 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 	}
 
 	if ( ! $user_id ) {
-		pmpro_setMessage( __( 'Error creating user.', 'pmpro-add-member-admin' ), 'pmpro_error' );
+		pmpro_setMessage( esc_html__( 'Error creating user.', 'pmpro-add-member-admin' ), 'pmpro_error' );
 	} else {
 		// other user meta
 		update_user_meta( $user_id, 'user_notes', $user_notes );
@@ -312,7 +312,7 @@ if ( $pmpro_msg ) {
 				<tr class="user">
 					<th scope="row" valign="top"><label for="user_id"><?php esc_html_e( 'User', 'pmpro-add-member-admin' ); ?></label></th>
 					<td>
-						<a href="<?php echo admin_url( 'user-edit.php?user_id=' . $user_id ); ?>"><?php echo $user->display_name; ?></a>
+						<a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $user_id ) ); ?>"><?php echo $user->display_name; ?></a>
 						<input name="user_id" type="hidden" value="<?php echo esc_attr( $user_id ); ?>" />
 
 						&nbsp;&nbsp;
@@ -473,7 +473,7 @@ style="display: none;"<?php } ?>>
 						// some vars for the dates
 						$current_day = date( 'j' );
 					if ( isset( $_POST['expires_day'] ) ) {
-						$expires_day = $_POST['expires_day'];
+						$expires_day = sanitize_text_field( $_POST['expires_day'] );
 					} elseif ( ! empty( $user->membership_level ) ) {
 						$expires_day = date( 'j', $user->membership_level->enddate );
 					} else {
@@ -482,7 +482,7 @@ style="display: none;"<?php } ?>>
 
 						$current_month = date( 'M' );
 					if ( isset( $_POST['expires_month'] ) ) {
-						$expires_month = $_POST['expires_month'];
+						$expires_month = sanitize_text_field( $_POST['expires_month'] );
 					} elseif ( ! empty( $user->membership_level ) ) {
 						$expires_month = date( 'm', $user->membership_level->enddate );
 					} else {
@@ -491,7 +491,7 @@ style="display: none;"<?php } ?>>
 
 						$current_year = date( 'Y' );
 					if ( isset( $_POST['expires_year'] ) ) {
-						$expires_year = $_POST['expires_year'];
+						$expires_year = sanitize_text_field( $_POST['expires_year'] );
 					} elseif ( ! empty( $user->membership_level ) ) {
 						$expires_year = date( 'Y', $user->membership_level->enddate );
 					} else {
