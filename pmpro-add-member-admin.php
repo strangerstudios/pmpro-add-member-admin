@@ -366,6 +366,13 @@ function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
 	
 	$pmproemail->email = get_bloginfo( 'admin_email' );
 
+	$confirmation_in_email = get_pmpro_membership_level_meta( $user->membership_level->id, 'confirmation_in_email', true );
+	if ( ! empty( $confirmation_in_email ) ) {
+		$confirmation_message = wp_kses_post( $user->membership_level->confirmation );
+	} else {
+		$confirmation_message = '';
+	}
+
 	$pmproemail->data = array(
 		'name' => $current_user->display_name,
 		'user_login' => $user->user_login, 
@@ -373,6 +380,11 @@ function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
 		'display_name' => $user->display_name, 
 		'sitename' => get_option( 'blogname' ), 
 		'siteemail' => pmpro_getOption( 'from_email' ), 
+		'membership_cost' => pmpro_getLevelCost( $user->membership_level ),
+		'membership_level_confirmation_message' => $confirmation_message,
+		'invoice_id' => $order->id,
+		'invoice_date' => date_i18n( get_option( 'date_format' ), $order->getTimestamp() ),
+		'invoice_total' => pmpro_formatPrice( $order->total ),
 		'login_link' => pmpro_login_url(), 
 		'login_url' => pmpro_login_url()
 	);
