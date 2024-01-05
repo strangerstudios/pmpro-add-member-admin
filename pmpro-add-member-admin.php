@@ -413,3 +413,12 @@ function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
 	return $pmproemail->sendEmail();	
 
 }
+
+/**
+ * Mark the plugin as MMPU-incompatible.
+ */
+function pmproama_mmpu_incompatible_add_ons( $incompatible ) {
+	$incompatible[] = 'PMPro Add Member From Admin Add On';
+	return $incompatible;
+}
+add_filter( 'pmpro_mmpu_incompatible_add_ons', 'pmproama_mmpu_incompatible_add_ons' );
