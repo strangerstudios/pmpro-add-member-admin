@@ -228,6 +228,7 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 		}
 
 		$user = get_userdata( $user_id );
+		$user->membership_level = pmpro_getSpecificMembershipLevelForUser( $user_id, $membership_level );
 		do_action( 'pmpro_add_member_added', $user_id, $user, $morder );
 
 		//Send user a welcome email
