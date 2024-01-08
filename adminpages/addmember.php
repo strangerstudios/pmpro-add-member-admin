@@ -294,6 +294,25 @@ if ( ! empty( $_REQUEST['user'] ) ) {
 </h2>
 
 <?php
+// If running PMPro v3.0, we want to show a message about the new Edit Member page.
+if ( class_exists( 'PMPro_Subscription') ) {
+?>
+	<div class="notice notice-warning">
+		<p>
+			<?php
+			if ( ! empty( $_REQUEST['user'] ) ) {
+				echo sprintf( esc_html__( "As of Paid Memberships Pro v3.0, you can now manage a user's membership and order information from the new Edit Member page. Click %s to manage this user's membership data.", 'pmpro-add-member-admin' ), '<a href="' . esc_url( admin_url( 'admin.php?page=pmpro-member&user_id=' . intval( $_REQUEST['user'] ) ) ) . '">' . esc_html__( 'here', 'pmpro-add-member-admin' ) . '</a>' );
+			} else {
+				echo sprintf( esc_html__( 'As of Paid Memberships Pro v3.0, you can now create a new member from the new Add Member page. Click %s to add a new member.', 'pmpro-add-member-admin' ), '<a href="' . esc_url( admin_url( 'admin.php?page=pmpro-member' ) ) . '">' . esc_html__( 'here', 'pmpro-add-member-admin' ) . '</a>' );
+			}
+			?>
+		</p>
+	</div>
+<?php
+}
+?>
+
+<?php
 if ( $pmpro_msg ) {
 ?>
 	<div id="pmpro_message" class="pmpro_message <?php echo esc_attr( $pmpro_msgt ); ?>"><?php echo esc_html( $pmpro_msg ); ?></div>
