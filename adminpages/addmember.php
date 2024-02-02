@@ -193,22 +193,26 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 			$enddate = '';
 		}
 
-		// add membership level
-		$custom_level = array(
-			'user_id' => $user_id,
-			'membership_id' => $membership_level,
-			'code_id' => '',
-			'initial_payment' => $total,
-			'billing_amount' => '',
-			'cycle_number' => '',
-			'cycle_period' => '',
-			'billing_limit' => '',
-			'trial_amount' => '',
-			'trial_limit' => '',
-			'startdate' => $startdate,
-			'enddate' => $enddate,
-		);
-		pmpro_changeMembershipLevel( $custom_level, $user_id );
+		// Only change the user level if we're adding a new user.
+		if ( empty( $_REQUEST['user'] ) ) {
+			// add membership level
+			$custom_level = array(
+				'user_id' => $user_id,
+				'membership_id' => $membership_level,
+				'code_id' => '',
+				'initial_payment' => $total,
+				'billing_amount' => '',
+				'cycle_number' => '',
+				'cycle_period' => '',
+				'billing_limit' => '',
+				'trial_amount' => '',
+				'trial_limit' => '',
+				'startdate' => $startdate,
+				'enddate' => $enddate,
+			);
+			pmpro_changeMembershipLevel( $custom_level, $user_id );
+		}
+		
 
 		// add order
 		// blank order for free levels
