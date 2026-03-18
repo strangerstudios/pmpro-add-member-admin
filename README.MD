@@ -33,5 +33,6 @@ There are various **ways to the help development** of Add Member From Admin:
 
 Here are some ways for **non-developers to contribute** to Add Member From Admin:
 
-1. Translate Add Member From Admin into your own [language](https://www.paidmembershipspro.com/paid-memberships-pro-in-your-language/).
+1. Translate Paid Memberships Pro into your own [language](https://www.paidmembershipspro.com/paid-memberships-pro-in-your-language/).
 2. [Purchase a paid membership](https://paidmembershipspro.com/pricing) to help fund ongoing development and bug fixes.
+3. Leave an honest review for [Paid Memberships Pro](https://www.paidmembershipspro.com/submit-testimonial/).
