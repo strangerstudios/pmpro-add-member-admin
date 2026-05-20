@@ -117,6 +117,8 @@ if ( ! empty( $_POST['order_notes'] ) ) {
 }
 
 if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
+	check_admin_referer( 'pmproama_add_member', 'pmproama_add_member_nonce' );
+
 	// only if we don't have a user yet
 	if ( empty( $user ) && empty( $user->ID ) ) {
 		// check for required fields
@@ -603,6 +605,7 @@ style="display: none;"<?php } ?>>
 		<div>
 			<input type="hidden" name="action" value="add_member" />
 			<?php
+			wp_nonce_field( 'pmproama_add_member', 'pmproama_add_member_nonce' );
 
 			// Adjust submit button text for Add Member or Add Order page.
 			$submit_button_text = ( empty( $user_id ) ) ? esc_html__( 'Add Member', 'pmpro-add-member-admin' ) : esc_html__( 'Add Order', 'pmpro-add-member-admin' );
