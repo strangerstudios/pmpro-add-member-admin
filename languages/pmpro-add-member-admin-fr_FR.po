@@ -1,17 +1,17 @@
-# Copyright (C) 2024 Stranger Studios
+# Copyright (C) 2026 Stranger Studios
 # This file is distributed under the same license as the Paid Memberships Pro - Add Member From Admin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Paid Memberships Pro - Add Member From Admin 0.7.2\n"
+"Project-Id-Version: Paid Memberships Pro - Add Member From Admin 0.7.3\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-25T14:17:31+00:00\n"
+"POT-Creation-Date: 2026-05-20T14:47:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pmpro-add-member-admin\n"
 
 #: pmpro-add-member-admin.php:27
@@ -24,6 +24,7 @@ msgstr ""
 #: pmpro-add-member-admin.php:63
 #: pmpro-add-member-admin.php:142
 #: adminpages/addmember.php:608
+#: adminpages/addmember.php:615
 msgid "Add Member"
 msgstr "Ajouter un membre"
 
@@ -44,52 +45,61 @@ msgstr "+commande"
 
 #: adminpages/addmember.php:126
 #: adminpages/addmember.php:137
+#: adminpages/addmember.php:139
 msgid "Please fill out all required fields:"
 msgstr "Veuillez remplir tous les champs requis :"
 
 #: adminpages/addmember.php:135
 #: adminpages/addmember.php:147
+#: adminpages/addmember.php:149
 msgid "That username is already taken. Please try another."
 msgstr "Cet identifiant est déjà utilisé. Veuillez en entrer un autre."
 
 #: adminpages/addmember.php:139
 #: adminpages/addmember.php:151
+#: adminpages/addmember.php:153
 msgid "That email address is already taken. Please try another."
 msgstr "Cette adresse email est déjà utilisée. Veuillez en entrer une autre."
 
 #: adminpages/addmember.php:165
 #: adminpages/addmember.php:178
 #: adminpages/addmember.php:179
+#: adminpages/addmember.php:181
 msgid "Error creating user."
 msgstr "Erreur lors de la création de l'utilisateur."
 
 #: adminpages/addmember.php:230
 #: adminpages/addmember.php:241
 #: adminpages/addmember.php:249
+#: adminpages/addmember.php:255
 msgid "Order added."
 msgstr "Commande ajoutée."
 
 #: adminpages/addmember.php:232
 #: adminpages/addmember.php:243
 #: adminpages/addmember.php:251
+#: adminpages/addmember.php:257
 msgid "Member added."
 msgstr "Membre ajouté."
 
 #: adminpages/addmember.php:258
 #: adminpages/addmember.php:267
 #: adminpages/addmember.php:275
+#: adminpages/addmember.php:281
 msgid "The user account has been created, but there were other errors setting up membership: "
 msgstr "Le compte utilisateur a été créé, mais il y a eu des erreurs pour définir le niveau d'adhésion :"
 
 #: adminpages/addmember.php:268
 #: adminpages/addmember.php:279
 #: adminpages/addmember.php:287
+#: adminpages/addmember.php:293
 msgid "Add"
 msgstr "Ajouter"
 
 #: adminpages/addmember.php:268
 #: adminpages/addmember.php:281
 #: adminpages/addmember.php:289
+#: adminpages/addmember.php:295
 msgid "Order"
 msgstr "Commande"
 
@@ -97,60 +107,70 @@ msgstr "Commande"
 #: adminpages/addmember.php:283
 #: pmpro-add-member-admin.php:73
 #: adminpages/addmember.php:291
+#: adminpages/addmember.php:297
 msgid "Member"
 msgstr "Membre"
 
 #: adminpages/addmember.php:290
 #: adminpages/addmember.php:306
 #: adminpages/addmember.php:333
+#: adminpages/addmember.php:339
 msgid "User"
 msgstr "Utilisateur"
 
 #: adminpages/addmember.php:297
 #: adminpages/addmember.php:313
 #: adminpages/addmember.php:340
+#: adminpages/addmember.php:346
 msgid "show more information"
 msgstr "afficher plus d'informations"
 
 #: adminpages/addmember.php:303
 #: adminpages/addmember.php:323
 #: adminpages/addmember.php:350
+#: adminpages/addmember.php:356
 msgid "Username"
 msgstr "Identifiant"
 
 #: adminpages/addmember.php:311
 #: adminpages/addmember.php:338
 #: adminpages/addmember.php:365
+#: adminpages/addmember.php:371
 msgid "Email"
 msgstr "Adresse email"
 
 #: adminpages/addmember.php:319
 #: adminpages/addmember.php:353
 #: adminpages/addmember.php:380
+#: adminpages/addmember.php:386
 msgid "First Name"
 msgstr "Prénom"
 
 #: adminpages/addmember.php:327
 #: adminpages/addmember.php:368
 #: adminpages/addmember.php:395
+#: adminpages/addmember.php:401
 msgid "Last Name"
 msgstr "Nom"
 
 #: adminpages/addmember.php:335
 #: adminpages/addmember.php:383
 #: adminpages/addmember.php:410
+#: adminpages/addmember.php:416
 msgid "Password"
 msgstr "Mot de passe"
 
 #: adminpages/addmember.php:339
 #: adminpages/addmember.php:387
 #: adminpages/addmember.php:414
+#: adminpages/addmember.php:420
 msgid "If blank, a random password will be generated and emailed to the new member."
 msgstr "Si laissé vide, un mot de passe aléatoire sera généré et envoyé au nouveau membre par email."
 
 #: adminpages/addmember.php:343
 #: adminpages/addmember.php:395
 #: adminpages/addmember.php:422
+#: adminpages/addmember.php:428
 msgid "Send Password?"
 msgstr "Envoi du mot de passe ?"
 
@@ -162,90 +182,105 @@ msgstr "Envoyer ce mot de passe au membre par email."
 #: adminpages/addmember.php:347
 #: adminpages/addmember.php:406
 #: adminpages/addmember.php:433
+#: adminpages/addmember.php:439
 msgid "User Notes"
 msgstr "Notes sur l'utilisateur"
 
 #: adminpages/addmember.php:355
 #: adminpages/addmember.php:421
 #: adminpages/addmember.php:448
+#: adminpages/addmember.php:454
 msgid "Role"
 msgstr "Rôle"
 
 #: adminpages/addmember.php:375
 #: adminpages/addmember.php:440
 #: adminpages/addmember.php:467
+#: adminpages/addmember.php:473
 msgid "Membership Level"
 msgstr "Niveau d'adhésion"
 
 #: adminpages/addmember.php:378
 #: adminpages/addmember.php:443
 #: adminpages/addmember.php:470
+#: adminpages/addmember.php:476
 msgid "No Level"
 msgstr "Pas d'adhésion"
 
 #: adminpages/addmember.php:392
 #: adminpages/addmember.php:456
 #: adminpages/addmember.php:483
+#: adminpages/addmember.php:489
 msgid "Expiration"
 msgstr "Expiration"
 
 #: adminpages/addmember.php:427
 #: adminpages/addmember.php:499
 #: adminpages/addmember.php:526
+#: adminpages/addmember.php:532
 msgid "No"
 msgstr "Non"
 
 #: adminpages/addmember.php:428
 #: adminpages/addmember.php:504
 #: adminpages/addmember.php:531
+#: adminpages/addmember.php:537
 msgid "Yes"
 msgstr "Oui"
 
 #: adminpages/addmember.php:461
 #: adminpages/addmember.php:539
 #: adminpages/addmember.php:566
+#: adminpages/addmember.php:572
 msgid "Payment"
 msgstr "Paiement"
 
 #: adminpages/addmember.php:464
 #: adminpages/addmember.php:542
 #: adminpages/addmember.php:569
+#: adminpages/addmember.php:575
 msgid "None"
 msgstr "Aucun"
 
 #: adminpages/addmember.php:465
 #: adminpages/addmember.php:543
 #: adminpages/addmember.php:570
+#: adminpages/addmember.php:576
 msgid "Check/Cash"
 msgstr "Chèque/comptant"
 
 #: adminpages/addmember.php:466
 #: adminpages/addmember.php:544
 #: adminpages/addmember.php:571
+#: adminpages/addmember.php:577
 msgid "Gateway (Not Functional)"
 msgstr "Passerelle de paiement (non fonctionnel ici)"
 
 #: adminpages/addmember.php:467
 #: adminpages/addmember.php:545
 #: adminpages/addmember.php:572
+#: adminpages/addmember.php:578
 msgid "Credit Card (Not Functional)"
 msgstr "Carte de crédit (non fonctionnel ici)"
 
 #: adminpages/addmember.php:473
 #: adminpages/addmember.php:551
 #: adminpages/addmember.php:578
+#: adminpages/addmember.php:584
 msgid "Order Total"
 msgstr "Montant total"
 
 #: adminpages/addmember.php:489
 #: adminpages/addmember.php:569
 #: adminpages/addmember.php:596
+#: adminpages/addmember.php:602
 msgid "Order Notes"
 msgstr "Notes sur la commande"
 
 #: adminpages/addmember.php:501
 #: adminpages/addmember.php:581
 #: adminpages/addmember.php:608
+#: adminpages/addmember.php:615
 msgid "Add Order"
 msgstr "Ajouter une commande"
 
@@ -255,6 +290,7 @@ msgstr "Paid Memberships Pro - Add Member Admin"
 
 #. Description of the plugin/theme
 #. Description of the plugin
+#: pmpro-add-member-admin.php
 msgid "Allow admins to add members in the WP dashboard."
 msgstr "Permet aux administrateurs d'ajouter des membres via le tableau de bord de WordPress."
 
@@ -264,6 +300,7 @@ msgstr "http://www.paidmembershipspro.com/wp/pmpro-add-member-admin/"
 
 #. Author of the plugin/theme
 #. Author of the plugin
+#: pmpro-add-member-admin.php
 msgid "Stranger Studios"
 msgstr "Stranger Studios"
 
@@ -272,14 +309,17 @@ msgid "http://www.strangerstudios.com"
 msgstr "http://www.strangerstudios.com"
 
 #. Plugin Name of the plugin
+#: pmpro-add-member-admin.php
 msgid "Paid Memberships Pro - Add Member From Admin"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: pmpro-add-member-admin.php
 msgid "https://www.paidmembershipspro.com/add-ons/add-member-admin-add-on/"
 msgstr ""
 
 #. Author URI of the plugin
+#: pmpro-add-member-admin.php
 msgid "https://www.paidmembershipspro.com"
 msgstr ""
 
@@ -288,23 +328,31 @@ msgid "You do not have permissions to perform this action."
 msgstr ""
 
 #: pmpro-add-member-admin.php:112
+#, php-format
 msgid "Thank you for activating. <a href=\"%s\">Visit the Add Member admin page</a> to add new members."
 msgstr ""
 
 #: adminpages/addmember.php:304
+#: adminpages/addmember.php:310
+#, php-format
 msgid "As of Paid Memberships Pro v3.0, you can now manage a user's membership and order information from the new Edit Member page. Click %s to manage this user's membership data."
 msgstr ""
 
 #: adminpages/addmember.php:304
 #: adminpages/addmember.php:306
+#: adminpages/addmember.php:310
+#: adminpages/addmember.php:312
 msgid "here"
 msgstr ""
 
 #: adminpages/addmember.php:306
+#: adminpages/addmember.php:312
+#, php-format
 msgid "As of Paid Memberships Pro v3.0, you can now create a new member from the new Add Member page. Click %s to add a new member."
 msgstr ""
 
 #: adminpages/addmember.php:423
+#: adminpages/addmember.php:429
 msgid "Send the user an email notification to set their password."
 msgstr ""
 
