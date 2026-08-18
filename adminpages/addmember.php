@@ -74,6 +74,11 @@ if ( ! empty( $user_id ) ) {
 
 	if ( ! empty( $_POST['role'] ) ) {
 		$role = sanitize_text_field( $_POST['role'] );
+
+		// Only allow roles the current user is allowed to assign.
+		if ( ! array_key_exists( $role, get_editable_roles() ) ) {
+			$role = get_option( 'default_role' );
+		}
 	} else {
 		$role = get_option( 'default_role' );
 	}
