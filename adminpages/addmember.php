@@ -72,15 +72,16 @@ if ( ! empty( $user_id ) ) {
 		$user_notes = '';
 	}
 
-	if ( ! empty( $_POST['role'] ) ) {
-		$role = sanitize_text_field( $_POST['role'] );
+	// Only allow roles the current user is allowed to assign.
+	$editable_roles = get_editable_roles();
+	$editable_roles = is_array( $editable_roles ) ? $editable_roles : array();
 
-		// Only allow roles the current user is allowed to assign.
-		if ( ! array_key_exists( $role, get_editable_roles() ) ) {
-			$role = get_option( 'default_role' );
-		}
-	} else {
+	if ( ! empty( $_POST['role'] ) && array_key_exists( sanitize_text_field( $_POST['role'] ), $editable_roles ) ) {
+		$role = sanitize_text_field( $_POST['role'] );
+	} elseif ( array_key_exists( get_option( 'default_role' ), $editable_roles ) ) {
 		$role = get_option( 'default_role' );
+	} else {
+		$role = '';
 	}
 }
 
@@ -161,7 +162,9 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 		}
 
 		// okay so far?
-		if ( $pmpro_msgt != 'pmpro_error' ) {
+		// Note: $role may be empty if neither the submitted role nor the default
+		// role can be assigned by the current user.
+		if ( ! empty( $role ) && $pmpro_msgt != 'pmpro_error' ) {
 			// random password if needed
 			if ( empty( $user_pass ) ) {
 				$user_pass = wp_generate_password();
