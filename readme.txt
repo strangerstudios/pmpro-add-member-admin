@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, memberships
 Requires at least: 5.0
-Tested up to: 6.9
-Stable tag: 0.7.3
+Tested up to: 7.0
+Stable tag: 0.7.4
 
 Adds a form to the admin dashboard under Memberships -> Add Member.
 
@@ -23,6 +23,9 @@ It is not possible at this time to also accept credit card or PayPal payment whi
 1. When viewing the member's list or user's list in the dashboard a "+ order" link will show up under the username that can be used to add a new order for an existing user through the same form.
 
 == Changelog ==
+= 0.7.4 - 2026-08-19 =
+* SECURITY: Now validating the submitted role against `get_editable_roles()` when adding a member so that users cannot create accounts with roles they are not allowed to assign. #65 (@flintfromthebasement)
+
 = 0.7.3 - 2026-05-20 =
 * SECURITY: Added nonce verification to the Add Member admin form to prevent CSRF. #64 (@dparker1005)
 * BUG FIX: Prevented the +order workflow from changing an existing user's membership level. #54 (@andrewlimaza)
