@@ -10,6 +10,10 @@ Text Domain: pmpro-add-member-admin
 Domain Path: /languages
 */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /*
 	* Add "Add Member" link under Memberships.
 	* Form with fields, username, email (find user), password (random), name, level, expiration (auto), credit card
@@ -109,7 +113,7 @@ function pmproama_admin_notice() {
 	// Check transient, if available display notice.
 	if ( get_transient( 'pmproama-admin-notice' ) ) { ?>
 		<div class="updated notice is-dismissible">
-			<p><?php printf( __( 'Thank you for activating. <a href="%s">Visit the Add Member admin page</a> to add new members.', 'pmpro-add-member-admin' ), esc_url( get_admin_url( null, 'admin.php?page=pmpro-addmember' ) ) ); ?></p>
+			<p><?php echo wp_kses_post( sprintf( __( 'Thank you for activating. <a href="%s">Visit the Add Member admin page</a> to add new members.', 'pmpro-add-member-admin' ), esc_url( get_admin_url( null, 'admin.php?page=pmpro-addmember' ) ) ) ); ?></p>
 		</div>
 		<?php
 		// Delete transient, only display this notice once.
@@ -321,6 +325,7 @@ function pmproada_send_added_email( $user = NULL, $order = NULL ){
 		$membership_id = intval( $order->membership_id );
 
 		$pmproemail->data['membership_id'] = $membership_id;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- PMPro custom table; values are integer IDs, quoted and escaped with esc_sql().
 		$pmproemail->data['membership_level_name'] = pmpro_implodeToEnglish( $wpdb->get_col("SELECT name FROM $wpdb->pmpro_membership_levels WHERE id = '". esc_sql( $membership_id ) ."'" ) );
 
 	} else {
@@ -394,9 +399,11 @@ function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
 		$membership_id = intval( $order->membership_id );
 
 		$pmproemail->data['membership_id'] = $membership_id;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- PMPro custom table; values are integer IDs, quoted and escaped with esc_sql().
 		$pmproemail->data['membership_level_name'] = pmpro_implodeToEnglish( $wpdb->get_col("SELECT name FROM $wpdb->pmpro_membership_levels WHERE id = '" . esc_sql( $membership_id ). "'" ) );
 
 		//start and end date
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- PMPro custom table; values are integer IDs, quoted and escaped with esc_sql().
 		$startdate = $wpdb->get_var("SELECT UNIX_TIMESTAMP(CONVERT_TZ(startdate, '+00:00', @@global.time_zone)) as startdate FROM $wpdb->pmpro_memberships_users WHERE user_id = '" . esc_sql( $user->ID ) . "' AND membership_id = '" . esc_sql( $membership_id ) . "' AND status IN('inactive', 'cancelled', 'admin_cancelled') ORDER BY id DESC");
 
 		if( !empty( $startdate ) ) {
@@ -405,6 +412,7 @@ function pmproada_send_added_email_admin( $user = NULL, $order = NULL ) {
 			$pmproemail->data['startdate'] = "";
 		}
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- PMPro custom table; values are integer IDs, quoted and escaped with esc_sql().
 		$enddate = $wpdb->get_var("SELECT UNIX_TIMESTAMP(CONVERT_TZ(enddate, '+00:00', @@global.time_zone)) as enddate FROM $wpdb->pmpro_memberships_users WHERE user_id = '" . esc_sql( $user->ID ) . "' AND membership_id = '" . esc_sql( $membership_id ) . "' AND status IN('inactive', 'cancelled', 'admin_cancelled') ORDER BY id DESC");
 
 		if( !empty( $enddate ) ) {
