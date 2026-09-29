@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 	// only admins can get this
 	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
 if ( ! function_exists( 'current_user_can' ) || ( ! current_user_can( 'manage_options' ) && ! current_user_can( $cap ) ) ) {
@@ -31,31 +35,31 @@ if ( ! empty( $user_id ) ) {
 	$role = '';
 } else {
 	if ( ! empty( $_POST['user_login'] ) ) {
-		$user_login = sanitize_text_field( $_POST['user_login'] );
+		$user_login = sanitize_text_field( $_POST['user_login'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Passed to wp_insert_user(), which unslashes its input.
 	} else {
 		$user_login = '';
 	}
 
 	if ( ! empty( $_POST['user_email'] ) ) {
-		$user_email = sanitize_text_field( $_POST['user_email'] );
+		$user_email = sanitize_text_field( wp_unslash( $_POST['user_email'] ) );
 	} else {
 		$user_email = '';
 	}
 
 	if ( ! empty( $_POST['first_name'] ) ) {
-		$first_name = sanitize_text_field( $_POST['first_name'] );
+		$first_name = sanitize_text_field( $_POST['first_name'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Passed to wp_insert_user(), which unslashes its input.
 	} else {
 		$first_name = '';
 	}
 
 	if ( ! empty( $_POST['last_name'] ) ) {
-		$last_name = sanitize_text_field( $_POST['last_name'] );
+		$last_name = sanitize_text_field( $_POST['last_name'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Passed to wp_insert_user(), which unslashes its input.
 	} else {
 		$last_name = '';
 	}
 
 	if ( ! empty( $_POST['user_pass'] ) ) {
-		$user_pass = sanitize_text_field( $_POST['user_pass'] );
+		$user_pass = sanitize_text_field( $_POST['user_pass'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Password: WordPress hashes and checks the slashed raw value, so it must not be unslashed.
 	} else {
 		$user_pass = '';
 	}
@@ -67,7 +71,7 @@ if ( ! empty( $user_id ) ) {
 	}
 
 	if ( ! empty( $_POST['user_notes'] ) ) {
-		$user_notes = sanitize_text_field( $_POST['user_notes'] );
+		$user_notes = sanitize_text_field( $_POST['user_notes'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Passed to update_user_meta(), which unslashes its input.
 	} else {
 		$user_notes = '';
 	}
@@ -76,8 +80,9 @@ if ( ! empty( $user_id ) ) {
 	$editable_roles = get_editable_roles();
 	$editable_roles = is_array( $editable_roles ) ? $editable_roles : array();
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Only repopulates the form; the nonce is verified by check_admin_referer() below before any user is created. Role keys contain no slashes and the value must match a get_editable_roles() key.
 	if ( ! empty( $_POST['role'] ) && array_key_exists( sanitize_text_field( $_POST['role'] ), $editable_roles ) ) {
-		$role = sanitize_text_field( $_POST['role'] );
+		$role = sanitize_text_field( $_POST['role'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Validated against get_editable_roles() keys above; role keys contain no slashes.
 	} elseif ( array_key_exists( get_option( 'default_role' ), $editable_roles ) ) {
 		$role = get_option( 'default_role' );
 	} else {
@@ -99,7 +104,7 @@ if ( isset( $_POST['membership_level'] ) ) {
 }
 
 if ( ! empty( $_POST['payment'] ) ) {
-	$payment = sanitize_text_field( $_POST['payment'] );
+	$payment = sanitize_text_field( wp_unslash( $_POST['payment'] ) );
 } else {
 	$payment = 'payment';
 }
@@ -117,7 +122,7 @@ if ( ! empty( $_POST['total'] ) ) {
 }
 
 if ( ! empty( $_POST['order_notes'] ) ) {
-	$order_notes = sanitize_text_field( $_POST['order_notes'] );
+	$order_notes = sanitize_text_field( wp_unslash( $_POST['order_notes'] ) );
 } else {
 	$order_notes = '';
 }
@@ -146,8 +151,10 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 		}
 
 		// check if user exists
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Values are quoted and escaped with esc_sql().
 		$oldusername = $wpdb->get_var( "SELECT user_login FROM $wpdb->users WHERE user_login = '" . esc_sql( $user_login ) . "' LIMIT 1" );
 		$oldemail = $wpdb->get_var( "SELECT user_email FROM $wpdb->users WHERE user_email = '" . esc_sql( $user_email ) . "' LIMIT 1" );
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		// this hook can be used to allow multiple accounts with the same email address
 		$oldemail = apply_filters( 'pmpro_checkout_oldemail', $oldemail );
 
@@ -198,6 +205,7 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 		// figure out end date
 		if ( ! empty( $_REQUEST['expires'] ) ) {
 			// update the expiration date
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- The form always submits these fields with "expires", and intval() handles a missing value.
 			$enddate = intval( $_REQUEST['expires_year'] ) . '-' . str_pad( intval( $_REQUEST['expires_month'] ), 2, '0', STR_PAD_LEFT ) . '-' . str_pad( intval( $_REQUEST['expires_day'] ), 2, '0', STR_PAD_LEFT );
 		} else {
 			$enddate = '';
@@ -298,7 +306,7 @@ if ( ! empty( $_REQUEST['action'] ) && $_REQUEST['action'] == 'add_member' ) {
 
 <h2>
 <?php
-echo __( 'Add', 'pmpro-add-member-admin' ) . ' ';
+echo esc_html__( 'Add', 'pmpro-add-member-admin' ) . ' ';
 if ( ! empty( $_REQUEST['user'] ) ) {
 	esc_html_e( 'Order', 'pmpro-add-member-admin' );
 } else {
@@ -339,14 +347,14 @@ if ( $pmpro_msg ) {
 ?>
 
 <form class="pmpro-add-member" action="" method="post">
-	<input name="saveid" type="hidden" value="<?php echo isset( $edit ) ? $edit : null; ?>" />
+	<input name="saveid" type="hidden" value="<?php echo isset( $edit ) ? esc_attr( $edit ) : null; ?>" />
 		<table class="form-table">
 		<tbody>
 			<?php if ( ! empty( $user_id ) ) { ?>
 				<tr class="user">
 					<th scope="row" valign="top"><label for="user_id"><?php esc_html_e( 'User', 'pmpro-add-member-admin' ); ?></label></th>
 					<td>
-						<a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $user_id ) ); ?>"><?php echo $user->display_name; ?></a>
+						<a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $user_id ) ); ?>"><?php echo esc_html( $user->display_name ); ?></a>
 						<input name="user_id" type="hidden" value="<?php echo esc_attr( $user_id ); ?>" />
 
 						&nbsp;&nbsp;
@@ -365,9 +373,9 @@ style="display: none;"<?php } ?>>
 				<td>
 					<?php
 					if ( ! empty( $user_id ) ) {
-						echo $user->user_login; } else {
+						echo esc_html( $user->user_login ); } else {
 ?>
-												<input name="user_login" type="text" autocomplete="off" size="50" class="<?php echo pmpro_getClassForField( 'user_login' ); ?>" value="<?php echo esc_attr( $user_login ); ?>" />
+												<input name="user_login" type="text" autocomplete="off" size="50" class="<?php echo esc_attr( pmpro_getClassForField( 'user_login' ) ); ?>" value="<?php echo esc_attr( $user_login ); ?>" />
 											<?php } ?>
 				</td>
 			</tr>
@@ -380,9 +388,9 @@ style="display: none;"<?php } ?>>
 				<td>
 					<?php
 					if ( ! empty( $user_id ) ) {
-						echo $user->user_email; } else {
+						echo esc_html( $user->user_email ); } else {
 ?>
-												<input name="user_email" id="user_email" type="text" autocomplete="off" size="50" class="<?php echo pmpro_getClassForField( 'user_email' ); ?>" value="<?php echo esc_attr( $user_email ); ?>" />
+												<input name="user_email" id="user_email" type="text" autocomplete="off" size="50" class="<?php echo esc_attr( pmpro_getClassForField( 'user_email' ) ); ?>" value="<?php echo esc_attr( $user_email ); ?>" />
 											<?php } ?>
 				</td>
 			</tr>
@@ -395,9 +403,9 @@ style="display: none;"<?php } ?>>
 				<td>
 					<?php
 					if ( ! empty( $user_id ) ) {
-						echo $user->first_name; } else {
+						echo esc_html( $user->first_name ); } else {
 ?>
-												<input name="first_name" id="first_name" type="text" autocomplete="off" size="50" class="<?php echo pmpro_getClassForField( 'first_name' ); ?>" value="<?php echo esc_attr( $first_name ); ?>" />
+												<input name="first_name" id="first_name" type="text" autocomplete="off" size="50" class="<?php echo esc_attr( pmpro_getClassForField( 'first_name' ) ); ?>" value="<?php echo esc_attr( $first_name ); ?>" />
 											<?php } ?>
 				</td>
 			</tr>
@@ -410,9 +418,9 @@ style="display: none;"<?php } ?>>
 				<td>
 					<?php
 					if ( ! empty( $user_id ) ) {
-						echo $user->last_name; } else {
+						echo esc_html( $user->last_name ); } else {
 ?>
-												<input name="last_name" id="last_name" type="text" autocomplete="off" size="50" class="<?php echo pmpro_getClassForField( 'last_name' ); ?>" value="<?php echo esc_attr( $last_name ); ?>" />
+												<input name="last_name" id="last_name" type="text" autocomplete="off" size="50" class="<?php echo esc_attr( pmpro_getClassForField( 'last_name' ) ); ?>" value="<?php echo esc_attr( $last_name ); ?>" />
 											<?php } ?>
 				</td>
 			</tr>
@@ -423,7 +431,7 @@ style="display: none;"<?php } ?>>
 style="display: none;"<?php } ?>>
 				<th scope="row" valign="top"><label for="user_pass"><?php esc_html_e( 'Password', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
-					<input name="user_pass" id="user_pass" type="password" autocomplete="off" size="25" class="<?php echo pmpro_getClassForField( 'user_pass' ); ?>" value="<?php echo esc_attr( $user_pass ); ?>" />
+					<input name="user_pass" id="user_pass" type="password" autocomplete="off" size="25" class="<?php echo esc_attr( pmpro_getClassForField( 'user_pass' ) ); ?>" value="<?php echo esc_attr( $user_pass ); ?>" />
 					<br />
 					<small><?php esc_html_e( 'If blank, a random password will be generated and emailed to the new member.', 'pmpro-add-member-admin' ); ?></small>
 				</td>
@@ -448,9 +456,9 @@ style="display: none;"<?php } ?>>
 				<td>
 					<?php
 					if ( ! empty( $user_id ) ) {
-						echo wpautop( $user->user_notes ); } else {
+						echo wp_kses_post( wpautop( $user->user_notes ) ); } else {
 ?>
-												<textarea name="user_notes" id="user_notes" rows="5" cols="80" class="<?php echo pmpro_getClassForField( 'user_notes' ); ?>"><?php echo esc_textarea( $user_notes ); ?></textarea>
+												<textarea name="user_notes" id="user_notes" rows="5" cols="80" class="<?php echo esc_attr( pmpro_getClassForField( 'user_notes' ) ); ?>"><?php echo esc_textarea( $user_notes ); ?></textarea>
 											<?php } ?>
 				</td>
 			</tr>
@@ -464,11 +472,11 @@ style="display: none;"<?php } ?>>
 					<?php if ( ! empty( $user_id ) ) { ?>
 						<?php
 						if ( ! empty( $user->roles ) && is_array( $user->roles ) ) {
-							echo implode( ', ', $user->roles );
+							echo esc_html( implode( ', ', $user->roles ) );
 						}
 						?>
 					<?php } else { ?>
-					<select name="role" id="role" class="<?php echo pmpro_getClassForField( 'role' ); ?>">
+					<select name="role" id="role" class="<?php echo esc_attr( pmpro_getClassForField( 'role' ) ); ?>">
 					<?php
 						// print the full list of roles with the primary one selected.
 						wp_dropdown_roles( $role );
@@ -481,7 +489,7 @@ style="display: none;"<?php } ?>>
 				<th scope="row" valign="top"><label for="membership_level"><?php esc_html_e( 'Membership Level', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
 					<select name="membership_level" id="membership_level">
-						<option value="" <?php selected( '', $membership_level ); ?> class="<?php echo pmpro_getClassForField( 'membership_level' ); ?>"><?php esc_html_e( 'No Level', 'pmpro-add-member-admin' ); ?></option>
+						<option value="" <?php selected( '', $membership_level ); ?> class="<?php echo esc_attr( pmpro_getClassForField( 'membership_level' ) ); ?>"><?php esc_html_e( 'No Level', 'pmpro-add-member-admin' ); ?></option>
 						<?php
 							$levels = pmpro_getAllLevels( true, true );
 						foreach ( $levels as $level ) {
@@ -507,7 +515,7 @@ style="display: none;"<?php } ?>>
 						// some vars for the dates
 						$current_day = date( 'j' );
 					if ( isset( $_POST['expires_day'] ) ) {
-						$expires_day = sanitize_text_field( $_POST['expires_day'] );
+						$expires_day = sanitize_text_field( wp_unslash( $_POST['expires_day'] ) );
 					} elseif ( ! empty( $user->membership_level ) ) {
 						$expires_day = date( 'j', $user->membership_level->enddate );
 					} else {
@@ -516,7 +524,7 @@ style="display: none;"<?php } ?>>
 
 						$current_month = date( 'M' );
 					if ( isset( $_POST['expires_month'] ) ) {
-						$expires_month = sanitize_text_field( $_POST['expires_month'] );
+						$expires_month = sanitize_text_field( wp_unslash( $_POST['expires_month'] ) );
 					} elseif ( ! empty( $user->membership_level ) ) {
 						$expires_month = date( 'm', $user->membership_level->enddate );
 					} else {
@@ -525,7 +533,7 @@ style="display: none;"<?php } ?>>
 
 						$current_year = date( 'Y' );
 					if ( isset( $_POST['expires_year'] ) ) {
-						$expires_year = sanitize_text_field( $_POST['expires_year'] );
+						$expires_year = sanitize_text_field( wp_unslash( $_POST['expires_year'] ) );
 					} elseif ( ! empty( $user->membership_level ) ) {
 						$expires_year = date( 'Y', $user->membership_level->enddate );
 					} else {
@@ -554,11 +562,11 @@ style="display: none;"<?php } ?>>
 							<?php
 							for ( $i = 1; $i < 13; $i++ ) {
 								?>
-								<option value="<?php echo $i; ?>" 
+								<option value="<?php echo esc_attr( $i ); ?>" 
 															<?php
 															if ( $i == $expires_month ) {
 							?>
-							selected="selected"<?php } ?>><?php echo date( 'M', strtotime( $i . '/15/' . $current_year, current_time( 'timestamp' ) ) ); ?></option>
+							selected="selected"<?php } ?>><?php echo esc_html( date( 'M', strtotime( $i . '/15/' . $current_year, current_time( 'timestamp' ) ) ) ); ?></option>
 								<?php
 							}
 							?>
@@ -594,13 +602,13 @@ style="display: none;"<?php } ?>>
 					<?php
 					global $pmpro_currency_symbol;
 					if ( pmpro_getCurrencyPosition() == 'left' ) {
-						echo $pmpro_currency_symbol;
+						echo wp_kses_post( $pmpro_currency_symbol );
 					}
 					?>
-					<input name="total" id="total" type="text" autocomplete="off" size="50" class="<?php echo pmpro_getClassForField( 'total' ); ?>" value="<?php echo esc_attr( $total ); ?>" />
+					<input name="total" id="total" type="text" autocomplete="off" size="50" class="<?php echo esc_attr( pmpro_getClassForField( 'total' ) ); ?>" value="<?php echo esc_attr( $total ); ?>" />
 					<?php
 					if ( pmpro_getCurrencyPosition() == 'right' ) {
-						echo $pmpro_currency_symbol;
+						echo wp_kses_post( $pmpro_currency_symbol );
 					}
 					?>
 				</td>
@@ -609,7 +617,7 @@ style="display: none;"<?php } ?>>
 			<tr>
 				<th scope="row" valign="top"><label for="order_notes"><?php esc_html_e( 'Order Notes', 'pmpro-add-member-admin' ); ?></label></th>
 				<td>
-					<textarea name="order_notes" id="order_notes" rows="5" cols="80" class="<?php echo pmpro_getClassForField( 'order_notes' ); ?>"><?php echo esc_textarea( $order_notes ); ?></textarea>
+					<textarea name="order_notes" id="order_notes" rows="5" cols="80" class="<?php echo esc_attr( pmpro_getClassForField( 'order_notes' ) ); ?>"><?php echo esc_textarea( $order_notes ); ?></textarea>
 				</td>
 			</tr>
 		</tbody>
