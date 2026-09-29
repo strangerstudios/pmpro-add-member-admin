@@ -41,7 +41,7 @@ if ( ! empty( $user_id ) ) {
 	}
 
 	if ( ! empty( $_POST['user_email'] ) ) {
-		$user_email = sanitize_text_field( $_POST['user_email'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Passed to wp_insert_user(), which unslashes its input.
+		$user_email = sanitize_text_field( wp_unslash( $_POST['user_email'] ) );
 	} else {
 		$user_email = '';
 	}
